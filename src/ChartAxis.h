@@ -45,6 +45,7 @@ private:
 	int m_nMaxValue;
 	int m_nMinValue;
 	int m_nTickValue;
+	int m_nTickCount;
 
 private:
 	ChartLine* m_pAxisLine;
