@@ -10,7 +10,7 @@
 #ifndef CHARTTEXTSTYLE_H_
 #define CHARTTEXTSTYLE_H_
 
-#include "Global.h"
+#include "../Common/Global.h"
 
 namespace SuperChart
 {

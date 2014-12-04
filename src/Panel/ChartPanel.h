@@ -10,9 +10,9 @@
 #ifndef CHARTPANEL_H_
 #define CHARTPANEL_H_
 
-#include "ChartText.h"
-#include "ChartAxis.h"
-#include "ChartStyles.h"
+#include "../Elements/ChartText.h"
+#include "../Axes/ChartAxis.h"
+#include "../Styles/ChartStyles.h"
 
 #include <GeoRect.h>
 

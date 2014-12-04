@@ -14,10 +14,18 @@
 					<folderInfo id="org.eclipse.cdt.msvc.exe.debug.1246694719." name="/" resourcePath="">
 						<toolChain id="org.eclipse.cdt.msvc.toolchain.exe.debug.1937153590" name="Microsoft Visual C++" superClass="org.eclipse.cdt.msvc.toolchain.exe.debug">
 							<targetPlatform id="org.eclipse.cdt.msvc.targetPlatform.exe.debug.424041550" superClass="org.eclipse.cdt.msvc.targetPlatform.exe.debug"/>
-							<builder buildPath="${workspace_loc:/SuperChart}/Debug" id="org.eclipse.cdt.msvc.builder.1356375230" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="org.eclipse.cdt.msvc.builder"/>
+							<builder buildPath="${workspace_loc:/SuperChart}/Debug" id="org.eclipse.cdt.msvc.builder.1356375230" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="org.eclipse.cdt.msvc.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
+								</outputEntries>
+							</builder>
 							<tool id="org.eclipse.cdt.msvc.cl.c.exe.debug.1374635785" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.exe.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.2136425707" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1537462993" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.696289327" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SuperChart/Geometry/src}&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.344601966" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.exe.debug.1444603143" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.exe.debug">
@@ -29,6 +37,9 @@
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1184387998" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.exe.debug.655082367" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.exe.debug">
+								<option id="org.eclipse.cdt.msvc.rc.option.includes.598085621" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.rc.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SuperChart/Geometry/src}&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.rc.inputType.554237231" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.link.exe.debug.1043236041" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.exe.debug">
@@ -45,7 +56,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src|Axes" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -86,8 +97,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="src|Axes" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Axes" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/Axes"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

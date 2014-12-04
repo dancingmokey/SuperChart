@@ -10,7 +10,7 @@
 #ifndef CHARTSERIAL_H_
 #define CHARTSERIAL_H_
 
-#include "ChartElement.h"
+#include "../Elements/ChartElement.h"
 
 namespace SuperChart
 {

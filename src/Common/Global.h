@@ -10,12 +10,17 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
+#include <string>
+#include <sstream>
+
+using namespace std;
+
 namespace SuperChart
 {
 
 /** */
-typedef unsigned char 		uint8;
-typedef unsigned int		uint32;
+typedef unsigned char 						uint8;
+typedef unsigned int						uint32;
 
 /**
  * @ClassName: 		Geometry::Global
@@ -28,6 +33,32 @@ typedef unsigned int		uint32;
 
 class Global
 {
+public:
+	/**
+	 *
+	 * @param value
+	 * @return
+	 */
+	template <class T>
+	static
+	std::string ConvertToString(T value)
+	{
+		std::stringstream ss;
+		ss << value;
+		return ss.str();
+	}
+
+
+public:
+	/**
+	 * @filed : Axis Position
+	 */
+	static const uint8 Axis_Left			= 0x01;
+	static const uint8 Axis_Right			= 0x02;
+	static const uint8 Axis_Top				= 0x03;
+	static const uint8 Axis_Bottom			= 0x04;
+
+
 public:
 	/**
 	 * @filed : Color

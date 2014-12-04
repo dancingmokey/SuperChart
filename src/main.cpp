@@ -12,7 +12,7 @@
 
 #include <GeoRect.h>
 
-#include "ChartStyles.h"
+#include "Styles/ChartStyles.h"
 
 using namespace std;
 using namespace Geometry;
