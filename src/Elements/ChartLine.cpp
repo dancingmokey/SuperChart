@@ -20,7 +20,7 @@ namespace SuperChart
  */
 ChartLine::ChartLine(GeoLine* pLine, ChartStyle* pStyle) :
 		GeoLine(*pLine),
-		ChartElement(NULL, pStyle)
+		ChartElement(NULL, NULL, pStyle)
 {
 	// TODO Auto-generated constructor stub
 }

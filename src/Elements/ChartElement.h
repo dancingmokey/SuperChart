@@ -13,6 +13,7 @@
 #include <GeoRect.h>
 
 #include "../Styles/ChartStyle.h"
+#include "../Attributes/Attribute.h"
 
 using namespace Geometry;
 
@@ -34,9 +35,10 @@ public:
 	 * @FuncName: ChartElement(void)
 	 * @Description: Custom Constructor Function
 	 * @param pBoundRect : GeoRect* : Bound Rectangle of Element
+	 * @param pAttribute : Attribute* : Attribute of Element
 	 * @param pStyle : ChartStyle* : Style of Element
 	 */
-	ChartElement(GeoRect* pBoundRect, ChartStyle* pStyle);
+	ChartElement(GeoRect* pBoundRect, Attribute* pAttribute, ChartStyle* pStyle);
 
 	/**
 	 * @FuncName: ChartElement(void)
@@ -67,6 +69,13 @@ public:
 	void setStyle(ChartStyle* pStyle);
 
 	/**
+	 * @FuncName: setAttribute(void)
+	 * @Description: Set Attribute of Element
+	 * @param pAttribute : Attribute* : Attribute of Element
+	 */
+	void setAttribute(Attribute* pAttribute);
+
+	/**
 	 * @FuncName: getBoundRect(void)
 	 * @Description: Get Bound Rectangle of Element
 	 * @return Pointer to GeoRect Object
@@ -80,6 +89,13 @@ public:
 	 */
 	ChartStyle* getStyle(void);
 
+	/**
+	 * @FuncName: getAttribute(void)
+	 * @Description: Get Attribute of Element
+	 * @return
+	 */
+	Attribute* getAttribute(void);
+
 private:
 	/**
 	 * @Field : m_pBoundRect : Bound Rectangle
@@ -90,6 +106,8 @@ private:
 	 * @Field : m_bIsVisible : Is Element Visible
 	 */
 	ChartStyle* m_pStyle;
+
+	Attribute* m_pAttribute;
 
 };
 

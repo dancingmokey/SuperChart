@@ -18,10 +18,11 @@ namespace SuperChart
  * @param pBoundRect : GeoRect* : Bound Rectangle of Element
  * @param pStyle : ChartStyle* : Style of Element
  */
-ChartElement::ChartElement(GeoRect* pBoundRect, ChartStyle* pStyle)
+ChartElement::ChartElement(GeoRect* pBoundRect, Attribute* pAttribute, ChartStyle* pStyle)
 {
 	// TODO Auto-generated constructor stub
 	m_pBoundRect = pBoundRect;
+	m_pAttribute = pAttribute;
 	m_pStyle = pStyle;
 }
 
@@ -33,6 +34,7 @@ ChartElement::ChartElement()
 {
 	// TODO Auto-generated constructor stub
 	m_pBoundRect = new GeoRect();
+	m_pAttribute = new Attribute();
 	m_pStyle = new ChartStyle();
 }
 
@@ -95,4 +97,26 @@ ChartStyle* ChartElement::getStyle(void)
 	return m_pStyle;
 }
 
+
+/**
+ * @FuncName: getAttribute(void)
+ * @Description: Get Attribute of Element
+ * @return
+ */
+Attribute* ChartElement::getAttribute(void)
+{
+	return m_pAttribute;
+}
+
+/**
+ * @FuncName: setAttribute(void)
+ * @Description: Set Attribute of Element
+ * @param pAttribute : Attribute* : Attribute of Element
+ */
+void ChartElement::setAttribute(Attribute* pAttribute)
+{
+	m_pAttribute = pAttribute;
+}
+
 } /* namespace Geometry */
+

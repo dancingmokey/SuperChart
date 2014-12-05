@@ -11,13 +11,38 @@
 
 namespace SuperChart
 {
-
-ChartPanel::ChartPanel()
+/**
+ *
+ * @param pBoundRect
+ * @param strTitle
+ * @param pTitleStyle
+ * @param nXAxisPosition
+ * @param strXAxisTitle
+ * @param nXAxisMaxVal
+ * @param nXAxisMinVal
+ * @param nXAxisTickVal
+ * @param pXAxisStyles
+ * @param nYAxisPosition
+ * @param strYAxisTitle
+ * @param nYAxisMaxVal
+ * @param nYAxisMinVal
+ * @param nYAxisTickVal
+ * @param pYAxisStyles
+ */
+ChartPanel::ChartPanel(GeoRect* pBoundRect,
+		AxisAttribute* pXAxisAttrs,
+		AxisAttribute* pYAxisAttrs,
+		ChartStyle* pChartStyle)
 {
-	// TODO Auto-generated constructor stub
-	m_pTitle = NULL;
-	m_pXAxis = NULL;
-	m_pYAxis = NULL;
+	m_pTitle = new ChartText(pBoundRect, pChartStyle, "Super Chart");
+
+	m_pXAxis = new ChartAxis(pBoundRect,
+			pXAxisAttrs,
+			pChartStyle);
+	m_pYAxis = new ChartAxis(pBoundRect,
+			pYAxisAttrs,
+			pChartStyle);
+
 }
 
 ChartPanel::~ChartPanel()
@@ -25,70 +50,36 @@ ChartPanel::~ChartPanel()
 	// TODO Auto-generated destructor stub
 }
 
-bool ChartPanel::CreateChartPanel(GeoRect* pBoundRect,
-		string strTitle,
-		string strXAxisTitle,
-		string strYAxisTitle,
-		int nMinValue,
+/**
+ *
+ * @param pBoundRect
+ * @param nAxisPosition
+ * @param strAxisTitle
+ * @param nMaxValue
+ * @param nMinValue
+ * @param nTickValue
+ * @param pAxisStyle
+ * @return
+ */
+ChartAxis*  CreateAxis(GeoRect* pBoundRect,
+		uint8 nAxisPosition,
+		string strAxisTitle,
 		int nMaxValue,
+		int nMinValue,
 		int nTickValue,
-		ChartStyles vChartStyles)
+		ChartStyle* pAxisStyle)
 {
-	/** Declare Variables */
-	int nRectWidth = pBoundRect->getSize()->getWidth();
-	int nRectHeight = pBoundRect->getSize()->getHeight();
-	int nXCorrdinate;
-	int nYCorrdinate;
-	int nTargetWidth;
-	int nTargetHeight;
-
-//	/** Create Title Bound Rectangle */
-//	nXCorrdinate = nRectWidth / 2 - 80;
-//	nYCorrdinate = 0;
-//	nTargetWidth = 160;
-//	nTargetHeight = 120;
-//	GeoRect* pTitleRect = new GeoRect(new GeoPoint(nXCorrdinate, nYCorrdinate), new GeoSize(nTargetWidth, nTargetHeight));
-//	m_pTitle = new ChartText(pTitleRect, vChartStyles.Chart_Text_Style, strTitle);
-//
-//	/** Create X Axis Bound Rectangle */
-//	nXCorrdinate = 40;
-//	nYCorrdinate = nRectHeight - 40;
-//	nTargetWidth = nRectWidth - 40;
-//	nTargetHeight = 40;
-//	GeoRect* pXAxisRect = new GeoRect(new GeoPoint(nXCorrdinate, nYCorrdinate), new GeoSize(nTargetWidth, nTargetHeight));
-//	m_pXAxis = new ChartAxis();
-//
-//	/** Create Y Axis Bound Rectangle */
-//	nXCorrdinate = 0;
-//	nYCorrdinate = 0;
-//	nTargetWidth = 40;
-//	nTargetHeight = nRectHeight - 40;
-//	GeoRect* pYAxisRect = new GeoRect(new GeoPoint(nXCorrdinate, nYCorrdinate), new GeoSize(nTargetWidth, nTargetHeight));
-//	m_pYAxis = new ChartAxis();
-//
-//	/** Create Grids Bound Rectangle */
-//	nXCorrdinate = 40;
-//	nYCorrdinate = 0;
-//	nTargetWidth = nRectWidth - 40;
-//	nTargetHeight = nRectHeight - 40;
-//	GeoRect* pGridRect = new GeoRect(new GeoPoint(nXCorrdinate, nYCorrdinate), new GeoSize(nTargetWidth, nTargetHeight));
-//
-//	/** Create Serials */
-//
-//
-//	ChartStyles::Chart_Text_Style1 = vChartStyles.Chart_Text_Style1;
-//
-//
-//
-//	m_pTitle = new ChartText(new GeoRect(), strTitle, vChartStyles.Chart_Text_Style);
 
 
-	/**  */
-	return false;
+//	return new ChartAxis(nAxisPosition,
+//			pBoundRect,
+//			strAxisTitle,
+//			pAxisStyle,
+//			nMaxValue,
+//			nMinValue,
+//			nTickValue);
+	return NULL;
 }
-
-
-
 
 
 

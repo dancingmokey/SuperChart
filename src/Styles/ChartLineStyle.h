@@ -1,9 +1,9 @@
 /**
  * @Title: 			ChartLineStyle.h
  * @Package 		SuperChart
- * @Description: 	TODO 
+ * @Description: 	Define Class SuperChart::ChartLineStyle
  * @Author: 		LiuLei
- * @Created on: 	2014/12/02
+ * @Created on: 	2014/12/05
  * @Version:		V1.0.0	
  */
 
@@ -11,6 +11,7 @@
 #define CHARTLINESTYLE_H_
 
 #include "../Common/Global.h"
+#include "ChartStyle.h"
 
 namespace SuperChart
 {
@@ -18,31 +19,29 @@ namespace SuperChart
 /**
  * @ClassName: 		SuperChart::ChartLineStyle
  * @NameSpace: 		SuperChart
- * @Description: 	TODO 
+ * @Description: 	Chart Line Style Class, include color, size, type
  * @Author: 		LiuLei
- * @Created on: 	2014/12/02
+ * @Created on: 	2014/12/05
  * @Version:		V1.0.0	
  */
-
-class ChartLineStyle
+class ChartLineStyle : public ChartStyle
 {
 public:
-	ChartLineStyle(uint32 nLineColor, uint32 nLineWidth, uint8 nLineType);
-	ChartLineStyle();
-	virtual ~ChartLineStyle();
-public:
-	void setChartLineStyle(uint32 nLineColor, uint32 nLineWidth, uint8 nLineType);
-	uint32 getLineColor() const;
-	void setLineColor(uint32 nLineColor);
-	uint8 getLineType() const;
-	void setLineType(uint8 nLineType);
-	uint32 getLineWidth() const;
-	void setLineWidth(uint32 nLineWidth);
+	/**
+	 * @FuncName : ChartLineStyle(bool bIsVisible, uint32 nLineColor, uint32 nLineWidth, uint8 nLineType)
+	 * @Description: Custom Constructor Function
+	 * @param bIsVisible : bool : Is Element Visible or Not
+	 * @param nLineColor : uint32 : Color Defined in Global::Color
+	 * @param nLineWidth : uint32 : Element Size
+	 * @param nLineType : uint8 : Type of Line or Font of Text
+	 */
+	ChartLineStyle(bool bIsVisible, uint32 nLineColor, uint32 nLineWidth, uint8 nLineType);
 
-private:
-	uint32 m_nLineColor;
-	uint32 m_nLineWidth;
-	uint8 m_nLineType;
+	/**
+	 * @FuncName : ~ChartLineStyle(void)
+	 * @Description: Default Destructor Function
+	 */
+	virtual ~ChartLineStyle(void);
 };
 
 } /* namespace SuperChart */

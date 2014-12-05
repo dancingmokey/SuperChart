@@ -17,51 +17,42 @@ namespace SuperChart
  * @Description: Custom Constructor Function
  * @param nAxisPosition : uint8 : Position Infomation of Axis
  * @param pBoundRect : GeoRect* : Bound Rectangle of Axis
- * @param strTitle : string : Title of Axis
- * @param nMaxValue : int : Max Value of Axis
- * @param nMinValue : int : Min Value of Axis
- * @param nTickValue : int : Enery Single Value of Axis Tick
+ * @param pAttribute : AxisAttribute* : Attributes of Axis
+ * @param pAxisStyle : ChartStyle* : Style of Axis
  */
-ChartAxis::ChartAxis(uint8 nAxisPosition,
-		GeoRect* pBoundRect,
-		string strTitle,
-		ChartStyle* pAxisStyle,
-		int nMaxValue,
-		int nMinValue,
-		int nTickValue) :
-		ChartElement(pBoundRect, pAxisStyle),
-		m_nAxisPosition(Global::Axis_Left),
-		m_nAxisLength(0),
+ChartAxis::ChartAxis(GeoRect* pBoundRect,
+		AxisAttribute* pAttribute,
+		ChartStyle* pAxisStyle) :
+		ChartElement(pBoundRect, dynamic_cast<Attribute*>(pAttribute), pAxisStyle),
 		m_pAxisLine(NULL),
-		m_pAxisTitle(NULL),
-		m_pAxisScale(NULL)
+		m_pAxisTitle(NULL)
 {
 	/** Initialize Private Class Members */
-	this->setAxisPosition(nAxisPosition);
 	this->setBoundRect(pBoundRect);
-
-	/** Create Axis Title */
-	this->CreateAxisTitle(pBoundRect, pAxisStyle, strTitle);
+	this->setAttribute(dynamic_cast<Attribute*>(pAttribute));
+	this->setStyle(pAxisStyle);
 
 	/** Create Axis Line */
-	this->CreateAxisLine(pBoundRect, pAxisStyle);
+	this->ResetAxisLine(pBoundRect, pAxisStyle);
+
+	/** Update Attribute */
+
+	/** Create Axis Title */
+	this->ResetAxisTitle(pBoundRect, pAxisStyle);
 
 	/** Create Axis Other Elements */
-	this->CreateAxisOthers(nMaxValue, nMinValue, nTickValue, pAxisStyle);
+	this->ResetAxisOtherElements(pAxisStyle);
 }
 
 /**
 * @FuncName: ChartAxis(void)
 * @Description: Default Constructor Function
 */
-ChartAxis::ChartAxis()
+ChartAxis::ChartAxis(void)
 {
 	// TODO Auto-generated constructor stub
-	m_nAxisPosition = Global::Axis_Left;
 	m_pAxisLine = new ChartLine();
 	m_pAxisTitle = new ChartText();
-	m_pAxisScale = new ChartScale();
-	m_nAxisLength = 0;
 }
 
 /**
@@ -73,17 +64,18 @@ ChartAxis::~ChartAxis()
 	// TODO Auto-generated destructor stub
 }
 
-/**
- * @FuncName: CreateAxisTitle(ChartTextStyle vTextStyle)
- * @Description: Create Axis Title
- * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Line
- * @param pTextStyle : ChartStyle* : Style of Axis Title Text
- * @param strTitle : string : Title of Axis
- */
-void ChartAxis::CreateAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle, string strTitle)
+void ChartAxis::ResetChartAxis(void)
 {
-	/** Initialize Axis Title */
-	m_pAxisTitle = new ChartText(pBoundRect, pTextStyle, strTitle);
+	/** Create Axis Line */
+	this->ResetAxisLine(this->getBoundRect(), this->getStyle());
+
+	/** Update Attribute */
+
+	/** Create Axis Title */
+	this->ResetAxisTitle(this->getBoundRect(), this->getStyle());
+
+	/** Create Axis Other Elements */
+	this->ResetAxisOtherElements(this->getStyle());
 }
 
 /**
@@ -92,45 +84,46 @@ void ChartAxis::CreateAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle, str
  * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Area
  * @param pLineStyle : ChartStyle* : Style of Axis Line
  */
-void ChartAxis::CreateAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
+void ChartAxis::ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
 {
-	/** Get Bound Rectangle Parameters */
+	/** Convert Attribute to AxisAttr Type */
+	AxisAttribute* pAttribute = dynamic_cast<AxisAttribute*>(getAttribute());
+
+	/** Declare Variables */
+	int nTickLength = 20;
 	GeoLine* pAxisLine = NULL;
+
+	/** Get Bound Rectangle Parameters */
 	int nTLPointX = pBoundRect->getTopLeftPoint()->getX();
 	int nTLPointY = pBoundRect->getTopLeftPoint()->getY();
 	int nRBPointX = pBoundRect->getBottomRightPoint()->getX();
 	int nRBPointY = pBoundRect->getBottomRightPoint()->getY();
 
 	/** Calculate Axis Length & GeoLine base on Axis Position  */
-	switch (m_nAxisPosition)
+	switch (pAttribute->getAxisPosition())
 	{
 	case Global::Axis_Top:
 	{
-		m_nAxisLength = nRBPointX - nTLPointX;
-		pAxisLine = new GeoLine(nTLPointX, nTLPointY, nRBPointX, nTLPointY);
+		pAxisLine = new GeoLine(nTLPointX, nTLPointY + nTickLength, nRBPointX, nTLPointY + nTickLength);
 		break;
 	}
 	case Global::Axis_Bottom:
 	{
-		m_nAxisLength = nRBPointX - nTLPointX;
-		pAxisLine = new GeoLine(nTLPointX, nRBPointY, nRBPointX, nRBPointY);
+		pAxisLine = new GeoLine(nTLPointX, nRBPointY - nTickLength, nRBPointX, nRBPointY - nTickLength);
 		break;
 	}
 	case Global::Axis_Left:
 	{
-		m_nAxisLength = nRBPointY - nTLPointY;
-		pAxisLine = new GeoLine(nTLPointX, nRBPointY, nTLPointX, nTLPointY);
+		pAxisLine = new GeoLine(nTLPointX + nTickLength, nRBPointY, nTLPointX + nTickLength, nTLPointY);
 		break;
 	}
 	case Global::Axis_Right:
 	{
-		m_nAxisLength = nRBPointY - nTLPointY;
-		pAxisLine = new GeoLine(nRBPointX, nRBPointY, nRBPointY, nTLPointY);
+		pAxisLine = new GeoLine(nRBPointX - nTickLength, nRBPointY, nRBPointX - nTickLength, nTLPointY);
 		break;
 	}
 	default:
 	{
-		m_nAxisLength = 1;
 		pAxisLine = new GeoLine();
 		break;
 	}
@@ -138,18 +131,77 @@ void ChartAxis::CreateAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
 
 	/** Initialize Axis Line */
 	m_pAxisLine = new ChartLine(pAxisLine, pLineStyle);
+
+	/** Update Attributes */
+	pAttribute->setAxisLength(m_pAxisLine->getLength());
 }
 
 /**
- * @FuncName: CreateAxisScale(int nMaxValue, int nMinValue)
- * @Description: Create Axis Scale
- * @param nMaxValue : int : Maximum Value of Axis
- * @param nMinValue : int : Minimum Value of Axis
+ * @FuncName: CreateAxisTitle(ChartTextStyle vTextStyle)
+ * @Description: Create Axis Title
+ * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Line
+ * @param pTextStyle : ChartStyle* : Style of Axis Title Text
  */
-void ChartAxis::CreateAxisScale(int nMaxValue, int nMinValue)
+void ChartAxis::ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle)
 {
+	/** Convert Attribute to AxisAttr Type */
+	AxisAttribute* pAttribute = dynamic_cast<AxisAttribute*>(getAttribute());
+
+	/** Declare Variables */
+	GeoRect* pTitleRect = NULL;
+	int nTitleWidh = 400;
+	int nTitleHeight = 100;
+
+	/** Get Bound Rectangle Parameters */
+	int nTLPointX = pBoundRect->getTopLeftPoint()->getX();
+	int nTLPointY = pBoundRect->getTopLeftPoint()->getY();
+	int nRBPointX = pBoundRect->getBottomRightPoint()->getX();
+	int nRBPointY = pBoundRect->getBottomRightPoint()->getY();
+
+	/** Calculate Title Position */
+	switch (pAttribute->getAxisPosition())
+	{
+	case Global::Axis_Top:
+	{
+		pTitleRect = new GeoRect((nTLPointX + nRBPointX - nTitleWidh) / 2,
+				nTLPointY - nTitleHeight,
+				nTitleWidh,
+				nTitleHeight);
+		break;
+	}
+	case Global::Axis_Bottom:
+	{
+		pTitleRect = new GeoRect((nTLPointX + nRBPointX - nTitleWidh) / 2,
+				nRBPointY,
+				nTitleWidh,
+				nTitleHeight);
+		break;
+	}
+	case Global::Axis_Left:
+	{
+		pTitleRect = new GeoRect(nTLPointX - nTitleHeight,
+				(nTLPointY + nRBPointY - nTitleWidh) / 2,
+				nTitleHeight,
+				nTitleWidh);
+		break;
+	}
+	case Global::Axis_Right:
+	{
+		pTitleRect = new GeoRect(nTLPointX + nTitleHeight,
+				(nTLPointY + nRBPointY - nTitleWidh) / 2,
+				nTitleHeight,
+				nTitleWidh);
+		break;
+	}
+	default:
+	{
+		pTitleRect = new GeoRect();
+		break;
+	}
+	}
+
 	/** Initialize Axis Title */
-	this->m_pAxisScale = new ChartScale(nMaxValue, nMinValue, m_nAxisLength);
+	m_pAxisTitle = new ChartText(pBoundRect, pTextStyle, pAttribute->getTitle());
 }
 
 /**
@@ -160,141 +212,241 @@ void ChartAxis::CreateAxisScale(int nMaxValue, int nMinValue)
  * @param nTickValue : int : Every single tick value of Axis
  * @param pAxisStyle : ChartStyle* : Chart Style instance
  */
-void ChartAxis::CreateAxisOthers(int nMaxValue, int nMinValue, int nTickValue, ChartStyle* pAxisStyle)
+void ChartAxis::ResetAxisOtherElements(ChartStyle* pAxisStyle)
 {
+	/**  */
+	m_pAxisLabels.clear();
+	m_pAxisTicks.clear();
+	m_pAxisGrid.clear();
+
+	/** Convert Attribute to AxisAttr Type */
+	AxisAttribute* pAttribute = dynamic_cast<AxisAttribute*>(getAttribute());
+
 	/** Declare Geometry Variables */
 	int nStartPosX = m_pAxisLine->getStartPoint()->getX();
 	int nStartPosY = m_pAxisLine->getStartPoint()->getY();
+
+	/** Declare Geometry Variables */
+	list<int> ltTickVals = pAttribute->getTickValues();
+
+	/**   */
+	for (list<int>::iterator it = ltTickVals.begin();
+			it != ltTickVals.end();
+			++it)
+	{
+		/** Calculate Parameters */
+		int nValue = *it;
+		int nOffsite = pAttribute->getPositionViaScale(nValue);
+
+		/** Create Single Tick */
+		ResetSingleTick(pAttribute->getAxisPosition(),
+				nStartPosX,
+				nStartPosY,
+				nOffsite,
+				pAxisStyle);
+
+		/** Create Single Grid */
+		ResetSingleGrid(pAttribute->getAxisPosition(),
+				nStartPosX,
+				nStartPosY,
+				nOffsite,
+				pAxisStyle);
+
+		/** Create Single Label */
+		ResetSingleLabel(pAttribute->getAxisPosition(),
+				nValue,
+				nStartPosX,
+				nStartPosY,
+				nOffsite,
+				pAxisStyle);
+	}
+}
+
+
+void ChartAxis::ResetSingleTick(uint8 nAxisPos, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pTickStyle)
+{
+	/** Declare Variables */
+	int nTickLength = 20;
+	GeoLine* pTickLine = NULL;
+
+	/** Calculate Tick Line & Grid Line & Label Rectangle */
+	switch (nAxisPos)
+	{
+	case Global::Axis_Top:
+	{
+		/** Create a Single Tick Line */
+		pTickLine = new GeoLine(nStartPosX + nOffset,
+				nStartPosY,
+				nStartPosX + nOffset,
+				nStartPosY - nTickLength);
+		break;
+	}
+	case Global::Axis_Bottom:
+	{
+		/** Create a Single Tick Line */
+		pTickLine = new GeoLine(nStartPosX + nOffset,
+				nStartPosY,
+				nStartPosX + nOffset,
+				nStartPosY + nTickLength);
+		break;
+	}
+	case Global::Axis_Left:
+	{
+		/** Create a Single Tick Line */
+		pTickLine = new GeoLine(nStartPosX,
+				nStartPosY - nOffset,
+				nStartPosX - nTickLength,
+				nStartPosY - nOffset);
+		break;
+	}
+	case Global::Axis_Right:
+	{
+		/** Create a Single Tick Line */
+		pTickLine = new GeoLine(nStartPosX,
+				nStartPosY - nOffset,
+				nStartPosX + nTickLength,
+				nStartPosY - nOffset);
+		break;
+	}
+	default:
+	{
+		/** Create a Single Tick Line */
+		pTickLine = new GeoLine();
+		break;
+	}
+	}
+
+	/** Storage New Tick */
+	m_pAxisTicks.push_back(new ChartLine(pTickLine, pTickStyle));
+}
+
+void ChartAxis::ResetSingleGrid(uint8 nAxisPos, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pGridStyle)
+{
+	/** Declare Variables */
+	GeoLine* pGridLine = NULL;
+
+	/** Declare Geometry Variables */
 	int nTop = this->getBoundRect()->getTopLeftPoint()->getY();
 	int nBottom = this->getBoundRect()->getBottomRightPoint()->getY();
 	int nLeft = this->getBoundRect()->getTopLeftPoint()->getX();
 	int nRight = this->getBoundRect()->getBottomRightPoint()->getX();
 
-	/** Calculate Count of All The Ticks */
-	int nTicksCount = (nMaxValue - nMinValue) / nTickValue + 1;
-
-	/**  */
-	stringstream strStream;
-	for (int i = 0; i < nTicksCount; ++i)
+	/** Calculate Grid Line */
+	switch (nAxisPos)
 	{
-		/** Calculate Parameters */
-		int nCurrValue = nMinValue + i * nTickValue;
-		int nCurrPosition = m_pAxisScale->getPixCntViaScale(nCurrValue);
-
-		/** Generate Tick Label */
-		strStream << nCurrValue;
-		string strTickLabel = strStream.str();
-		strStream.clear();
-
-		/** Calculate Tick Line & Grid Line & Label Rectangle */
-		GeoLine* pTickLine = new GeoLine();
-		GeoLine* pGridLine = new GeoLine();
-		GeoRect* pLabelRect = new GeoRect();
-		switch (m_nAxisPosition)
-		{
-		case Global::Axis_Top:
-		{
-			/** Create a Single Tick Line */
-			pTickLine->setStartPoint(nStartPosX + nCurrPosition, nStartPosY);
-			pTickLine->setEndPoint(nStartPosX + nCurrPosition, nStartPosY - 20);
-
-			/** Create a Single Grid Line */
-			pGridLine->setStartPoint(nStartPosX + nCurrPosition, nStartPosY);
-			pGridLine->setStartPoint(nStartPosX + nCurrPosition, nBottom);
-
-			/** Create a Single Label */
-			pLabelRect->setTopLeftPoint(nStartPosX + nCurrPosition - 30,
-					nStartPosY - 80);
-			pLabelRect->setSize(60, 60);
-
-			break;
-		}
-		case Global::Axis_Bottom:
-		{
-			/** Create a Single Tick Line */
-			pTickLine->setStartPoint(nStartPosX + nCurrPosition, nStartPosY);
-			pTickLine->setEndPoint(nStartPosX + nCurrPosition, nStartPosY + 20);
-
-			/** Create a Single Grid Line */
-			pGridLine->setStartPoint(nStartPosX + nCurrPosition, nStartPosY);
-			pGridLine->setStartPoint(nStartPosX + nCurrPosition, nTop);
-
-			/** Create a Single Label */
-			pLabelRect->setTopLeftPoint(nStartPosX + nCurrPosition - 30,
-					nStartPosY + 20);
-			pLabelRect->setSize(60, 60);
-
-			break;
-		}
-		case Global::Axis_Left:
-		{
-			/** Create a Single Tick Line */
-			pTickLine->setStartPoint(nStartPosX, nStartPosY - nCurrPosition);
-			pTickLine->setEndPoint(nStartPosX - 20, nStartPosY - nCurrPosition);
-
-			/** Create a Single Grid Line */
-			pGridLine->setStartPoint(nStartPosX, nStartPosY - nCurrPosition);
-			pGridLine->setEndPoint(nStartPosX, nRight);
-
-			/** Create a Single Label */
-			pLabelRect->setTopLeftPoint(nStartPosX - 80,
-					nStartPosY - nCurrPosition - 30);
-			pLabelRect->setSize(60, 60);
-
-			break;
-		}
-		case Global::Axis_Right:
-		{
-			/** Create a Single Tick Line */
-			pTickLine->setStartPoint(nStartPosX, nStartPosY - nCurrPosition);
-			pTickLine->setEndPoint(nStartPosX + 20, nStartPosY - nCurrPosition);
-
-			/** Create a Single Grid Line */
-			pTickLine->setStartPoint(nStartPosX, nStartPosY - nCurrPosition);
-			pTickLine->setEndPoint(nStartPosX, nLeft);
-
-			/** Create a Single Label */
-			pLabelRect->setTopLeftPoint(nStartPosX + 20,
-					nStartPosY - nCurrPosition - 30);
-			pLabelRect->setSize(60, 60);
-
-			break;
-		}
-		default:
-		{
-			break;
-		}
-		}
-
-		/** Storage New Tick */
-		m_pAxisTicks.push_back(new ChartLine(pTickLine, pAxisStyle));
-
-		/** Storage New Tick */
-		m_pAxisGrid.push_back(new ChartLine(pGridLine, pAxisStyle));
-
-		/** Storage New Tick */
-		m_pAxisLabels.push_back(new ChartText(pLabelRect, pAxisStyle, strTickLabel));
+	case Global::Axis_Top:
+	{
+		/** Create a Single Grid Line */
+		pGridLine = new GeoLine(nStartPosX + nOffset,
+				nStartPosY,
+				nStartPosX + nOffset,
+				nBottom);
+		break;
 	}
+	case Global::Axis_Bottom:
+	{
+		/** Create a Single Grid Line */
+		pGridLine = new GeoLine(nStartPosX + nOffset,
+				nStartPosY,
+				nStartPosX + nOffset,
+				nTop);
+		break;
+	}
+	case Global::Axis_Left:
+	{
+		/** Create a Single Grid Line */
+		pGridLine = new GeoLine(nStartPosX,
+				nStartPosY - nOffset,
+				nRight,
+				nStartPosY - nOffset);
+		break;
+	}
+	case Global::Axis_Right:
+	{
+		/** Create a Single Grid Line */
+		pGridLine = new GeoLine(nStartPosX,
+				nStartPosY - nOffset,
+				nLeft,
+				nStartPosY - nOffset);
+		break;
+	}
+	default:
+	{
+		/** Create a Single Grid Line */
+		pGridLine = new GeoLine();
+		break;
+	}
+	}
+
+
+	/** Storage New Tick */
+	m_pAxisGrid.push_back(new ChartLine(pGridLine, pGridStyle));
 }
 
-/**
- * @FuncName: getAxisPosition(void)
- * @Description: Get Axis Position Information
- * @return uint8
- */
-uint8 ChartAxis::getAxisPosition() const
+void ChartAxis::ResetSingleLabel(uint8 nAxisPos, int nCurrValue, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pLabelStyle)
 {
-	return m_nAxisPosition;
+	/** Declare Variables */
+	int nRectWidth = 60;
+	int nRectHeight = 30;
+	int nTickLength = 20;
+	GeoRect* pLabelRect = NULL;
+
+	/** Calculate Label Rectangle */
+	switch (nAxisPos)
+	{
+	case Global::Axis_Top:
+	{
+		/** Create a Single Label Rectangle */
+		pLabelRect = new GeoRect(nStartPosX + nOffset - nRectWidth / 2,
+				nStartPosY - nRectHeight - nTickLength,
+				nRectWidth,
+				nRectHeight);
+		break;
+	}
+	case Global::Axis_Bottom:
+	{
+		/** Create a Single Label Rectangle */
+		pLabelRect = new GeoRect(nStartPosX + nOffset - nRectWidth / 2,
+				nStartPosY + nTickLength,
+				nRectWidth,
+				nRectHeight);
+		break;
+	}
+	case Global::Axis_Left:
+	{
+		/** Create a Single Label Rectangle */
+		pLabelRect = new GeoRect(nStartPosX - nRectWidth - nTickLength,
+				nStartPosY - nOffset - nRectHeight / 2,
+				nRectWidth,
+				nRectHeight);
+		break;
+	}
+	case Global::Axis_Right:
+	{
+		/** Create a Single Label Rectangle */
+		pLabelRect = new GeoRect(nStartPosX + nTickLength,
+				nStartPosY - nOffset - nRectHeight / 2,
+				nRectWidth,
+				nRectHeight);
+		break;
+	}
+	default:
+	{
+		/** Create a Single Label Rectangle */
+		pLabelRect = new GeoRect();
+		break;
+	}
+	}
+
+	/** */
+	stringstream strStream;
+	strStream << nCurrValue;
+	string strTickLabel = strStream.str();
+	strStream.clear();
+
+	/** Storage New Tick */
+	m_pAxisLabels.push_back(new ChartText(pLabelRect, pLabelStyle, strTickLabel));
 }
 
-/**
- * @FuncName: setAxisPosition(uint8 nAxisPosition)
- * @Description: Set Axis Position Information
- * @param nAxisPosition : uint8 : Axis Position Information
- */
-void ChartAxis::setAxisPosition(uint8 nAxisPosition)
-{
-	m_nAxisPosition = nAxisPosition;
-}
 
 } /* namespace SuperChart */

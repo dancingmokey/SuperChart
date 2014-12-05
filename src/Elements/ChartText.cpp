@@ -22,7 +22,7 @@ namespace SuperChart
 ChartText::ChartText(GeoRect* pBoundRect,
 		ChartStyle* pStyle,
 		string strText) :
-		ChartElement(pBoundRect, pStyle)
+		ChartElement(pBoundRect, NULL, pStyle)
 {
 	// TODO Auto-generated constructor stub
 	m_strText = strText;

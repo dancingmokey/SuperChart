@@ -13,8 +13,9 @@
 #include "../Elements/ChartElement.h"
 #include "../Elements/ChartText.h"
 #include "../Elements/ChartLine.h"
+#include "../Attributes/AxisAttribute.h"
+#include "../Common/Global.h"
 
-#include "ChartScale.h"
 
 #include <GeoRect.h>
 #include <GeoPoint.h>
@@ -29,7 +30,7 @@ namespace SuperChart
 
 /**Chart
  * @ClassName: 		SuperChart::ChartAxis
- * @NameSpace: 		SuperCha	rt
+ * @NameSpace: 		SuperChart
  * @Description: 	Class Described Methods and Attributes of ChartAxis
  * @Author: 		LiuLei
  * @Created on: 	2014/12/02
@@ -41,26 +42,18 @@ public:
 	/**
 	 * @FuncName: ChartAxis(GeoRect* pBoundRect, string strTitle, int nMaxValue, int nMinValue, int nTickValue)
 	 * @Description: Custom Constructor Function
- * @param nAxisPosition : uint8 : Position Infomation of Axis
+	 * @param nAxisPosition : uint8 : Position Infomation of Axis
 	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis
-	 * @param strTitle : string : Title of Axis
+	 * @param pAttribute : AxisAttribute* : Attributes of Axis
 	 * @param pAxisStyle : ChartStyle* : Style of Axis
-	 * @param bIsVisible : bool : Is Axis Visible or Not
-	 * @param nMaxValue : int : Max Value of Axis
-	 * @param nMinValue : int : Min Value of Axis
-	 * @param nTickValue : int : Enery Single Value of Axis Tick
 	 */
-	ChartAxis(uint8 nAxisPosition,
-			GeoRect* pBoundRect,
-			string strTitle,
-			ChartStyle* pAxisStyle,
-			int nMaxValue,
-			int nMinValue,
-			int nTickValue);
+	ChartAxis(GeoRect* pBoundRect,
+			AxisAttribute* pAttribute,
+			ChartStyle* pAxisStyle);
 
 	/**
-	 * @FuncName: ChartAxis(void)
-	 * @Description: Default Constructor Function
+	* @FuncName: ChartAxis(void)
+	* @Description: Default Constructor Function
 	 */
 	ChartAxis(void);
 
@@ -71,76 +64,68 @@ public:
 	virtual ~ChartAxis();
 
 public:
-	/**
-	 * @FuncName: CreateAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle, string strTitle)
-	 * @Description: Create Axis Title
-	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Line
-	 * @param pTextStyle : ChartStyle* : Style of Axis Title Text
-	 * @param strTitle : string : Title of Axis
-	 */
-	void CreateAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle, string strTitle);
+	void ResetChartAxis(void);
 
 	/**
-	 * @FuncName: CreateAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
+	 * @FuncName: ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
 	 * @Description: Create Axis Line
 	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Area
 	 * @param pLineStyle : ChartStyle* : Style of Axis Line
 	 */
-	void CreateAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle);
+	void ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle);
 
 	/**
-	 * @FuncName: CreateAxisScale(int nMaxValue, int nMinValue)
-	 * @Description: Create Axis Scale
-	 * @param nMaxValue : int : Maximum Value of Axis
-	 * @param nMinValue : int : Minimum Value of Axis
+	 * @FuncName: ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle, string strTitle)
+	 * @Description: Create Axis Title
+	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Line
+	 * @param pTextStyle : ChartStyle* : Style of Axis Title Text
 	 */
-	void CreateAxisScale(int nMaxValue, int nMinValue);
+	void ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle);
 
 	/**
-	 * @FuncName: CreateAxisOthers(int nMaxValue, int nMinValue, int nTickValue, ChartStyle* pAxisStyle)
+	 * @FuncName: ResetAxisTitle(int nMaxValue, int nMinValue, int nTickValue, ChartStyle* pAxisStyle)
 	 * @Description: Create Axis Other Element, Include Grids, Ticks, Labels
-	 * @param nMaxValue : int : Maximum value of Axis
-	 * @param nMinValue : int : Minimum value of Axis
-	 * @param nTickValue : int : Every single tick value of Axis
 	 * @param pAxisStyle : ChartStyle* : Chart Style instance
 	 */
-	void CreateAxisOthers(int nMaxValue, int nMinValue, int nTickValue, ChartStyle* pAxisStyle);
+	void ResetAxisOtherElements(ChartStyle* pAxisStyle);
+
+	/**
+	 *
+	 * @param nAxisPos
+	 * @param nStartPosX
+	 * @param nStartPosY
+	 * @param nOffset
+	 * @param pTickStyle
+	 */
+	void ResetSingleTick(uint8 nAxisPos, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pTickStyle);
+
+	/**
+	 *
+	 * @param nAxisPos
+	 * @param nStartPosX
+	 * @param nStartPosY
+	 * @param nOffset
+	 * @param pGridStyle
+	 */
+	void ResetSingleGrid(uint8 nAxisPos, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pGridStyle);
+
+	/**
+	 *
+	 * @param nAxisPos
+	 * @param nCurrValue
+	 * @param nStartPosX
+	 * @param nStartPosY
+	 * @param nOffset
+	 * @param pLabelStyle
+	 */
+	void ResetSingleLabel(uint8 nAxisPos, int nCurrValue, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pLabelStyle);
+
 
 public:
-	/**
-	 * @FuncName: getAxisPosition(void)
-	 * @Description: Get Axis Position Information
-	 * @return uint8
-	 */
-	uint8 getAxisPosition(void) const;
-
-	/**
-	 * @FuncName: setAxisPosition(uint8 nAxisPosition)
-	 * @Description: Set Axis Position Information
-	 * @param nAxisPosition : uint8 : Axis Position Information
-	 */
-	void setAxisPosition(uint8 nAxisPosition);
-
-private:
-	/**
-	 * @field : m_nAxisPosition : uint8 : Axis Position Information
-	 */
-	uint8 m_nAxisPosition;
-
-	/**
-	 * @field : m_pAxisLine : ChartLine* : Line of Axis
-	 */
-	int m_nAxisLength;
-
 	/**
 	 * @field : m_pAxisLine : ChartLine* : Line of Axis
 	 */
 	ChartLine* m_pAxisLine;
-
-	/**
-	 * @field : m_pAxisScale : ChartScale* : Scale of Axis
-	 */
-	ChartScale* m_pAxisScale;
 
 	/**
 	 * @field : m_pAxisTitle : ChartText* : Title of Axis
@@ -168,27 +153,4 @@ private:
 } /* namespace SuperChart */
 
 #endif /* CHARTAXIS_H_ */
-
-
-
-//	void CreateAxisTicks();
-//    void CreateAxisLeftTick(int nStartPosX, int nStartPosY, int nTickLength, ChartStyle* pTickStyle);
-//    void CreateAxisRightTick(int nStartPosX, int nStartPosY, int nTickLength, ChartStyle* pTickStyle);
-//    void CreateAxisTopTick(int nStartPosX, int nStartPosY, int nTickLength, ChartStyle* pTickStyle);
-//    void CreateAxisBottomTick(int nStartPosX, int nStartPosY, int nTickLength, ChartStyle* pTickStyle);
-//
-//
-//    void CreateAxisLeftGrid();
-//    void CreateAxisRightGrid();
-//    void CreateAxisTopGrid();
-//    void CreateAxisBottomGrid();
-//    void CreateAxisLeftLabel();
-//    void CreateAxisRightLabel();
-//    void CreateAxisTopLabel();
-//    void CreateAxisBottomLabel();
-
-
-
-
-
 

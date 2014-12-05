@@ -12,63 +12,33 @@
 namespace SuperChart
 {
 
-ChartLineStyle::ChartLineStyle(uint32 nLineColor, uint32 nLineWidth, uint8 nLineType)
+/**
+ * @FuncName : ChartLineStyle(bool bIsVisible, uint32 nLineColor, uint32 nLineWidth, uint8 nLineType)
+ * @Description: Custom Constructor Function
+ * @param bIsVisible : bool : Is Element Visible or Not
+ * @param nLineColor : uint32 : Color Defined in Global::Color
+ * @param nLineWidth : uint32 : Element Size
+ * @param nLineType : uint8 : Type of Line or Font of Text
+ */
+ChartLineStyle::ChartLineStyle(bool bIsVisible,
+		uint32 nLineColor,
+		uint32 nLineWidth,
+		uint8 nLineType) :
+		ChartStyle(bIsVisible,
+				nLineColor,
+				nLineWidth,
+				nLineType)
 {
 	// TODO Auto-generated constructor stub
-	m_nLineColor = nLineColor;
-	m_nLineType = nLineWidth;
-	m_nLineWidth = nLineType;
 }
 
-ChartLineStyle::ChartLineStyle()
-{
-	// TODO Auto-generated constructor stub
-	m_nLineColor = Global::Color_Black;
-	m_nLineType = Global::Line_Solid;
-	m_nLineWidth = 0x00;
-}
-
+/**
+ * @FuncName : ~ChartLineStyle(void)
+ * @Description: Default Destructor Function
+ */
 ChartLineStyle::~ChartLineStyle()
 {
 	// TODO Auto-generated destructor stub
-}
-
-void ChartLineStyle::setChartLineStyle(uint32 nLineColor, uint32 nLineWidth, uint8 nLineType)
-{
-	// TODO
-	m_nLineColor = nLineColor;
-	m_nLineType = nLineWidth;
-	m_nLineWidth = nLineType;
-}
-
-uint32 ChartLineStyle::getLineColor() const
-{
-	return m_nLineColor;
-}
-
-void ChartLineStyle::setLineColor(uint32 nLineColor)
-{
-	m_nLineColor = nLineColor;
-}
-
-uint8 ChartLineStyle::getLineType() const
-{
-	return m_nLineType;
-}
-
-void ChartLineStyle::setLineType(uint8 nLineType)
-{
-	m_nLineType = nLineType;
-}
-
-uint32 ChartLineStyle::getLineWidth() const
-{
-	return m_nLineWidth;
-}
-
-void ChartLineStyle::setLineWidth(uint32 nLineWidth)
-{
-	m_nLineWidth = nLineWidth;
 }
 
 } /* namespace SuperChart */

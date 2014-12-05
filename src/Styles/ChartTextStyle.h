@@ -1,9 +1,9 @@
 /**
  * @Title: 			ChartTextStyle.h
  * @Package 		SuperChart
- * @Description: 	TODO 
+ * @Description: 	Define Class SuperChart::ChartTextStyle
  * @Author: 		LiuLei
- * @Created on: 	2014/12/02
+ * @Created on: 	2014/12/04
  * @Version:		V1.0.0	
  */
 
@@ -11,6 +11,7 @@
 #define CHARTTEXTSTYLE_H_
 
 #include "../Common/Global.h"
+#include "ChartStyle.h"
 
 namespace SuperChart
 {
@@ -18,40 +19,29 @@ namespace SuperChart
 /**
  * @ClassName: 		SuperChart::ChartTextStyle
  * @NameSpace: 		SuperChart
- * @Description: 	TODO 
+ * @Description: 	Chart Text Style Class, include color, size, type
  * @Author: 		LiuLei
- * @Created on: 	2014/12/02
+ * @Created on: 	2014/12/04
  * @Version:		V1.0.0	
  */
-
-class ChartTextStyle
+class ChartTextStyle : public ChartStyle
 {
 public:
-	ChartTextStyle(uint32 nFont, uint32 nColor, uint32 nSize);
-	ChartTextStyle(ChartTextStyle& vChartTextStyle);
-	ChartTextStyle();
+	/**
+	 * @FuncName : ChartTextStyle(bool bIsVisible, uint32 nTextColor, uint32 nTextSize, uint32 nTextFont)
+	 * @Description: Custom Constructor Function
+	 * @param bIsVisible : bool : Is Element Visible or Not
+	 * @param nTextColor : uint32 : Color Defined in Global::Color
+	 * @param nTextSize : uint32 : Element Size
+	 * @param nTextFont : uint8 : Font of Text
+	 */
+	ChartTextStyle(bool bIsVisible, uint32 nTextColor, uint32 nTextSize, uint32 nTextFont);
+
+	/**
+	 * @FuncName : ~ChartTextStyle(void)
+	 * @Description: Default Destructor Function
+	 */
 	virtual ~ChartTextStyle();
-public:
-	void setTextStyle(uint32 nFont, uint32 nColor, uint32 nSize);
-	uint32 getTextColor() const;
-	void setTextColor(uint32 nColor);
-	uint32 getTextFont() const;
-	void setTextFont(uint32 nFont);
-	uint32 getTextSize() const;
-	void setTextSize(uint32 nSize);
-private:
-	/**
-	 * @Field : m_nFont :Test Font
-	 */
-	uint32 m_nTextFont;
-	/**
-	 * @Field : m_nSize : Test Size
-	 */
-	uint32 m_nTextSize;
-	/**
-	 * @Field : m_nColor : Test Color
-	 */
-	uint32 m_nTextColor;
 };
 
 } /* namespace SuperChart */

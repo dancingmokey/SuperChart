@@ -22,6 +22,9 @@ namespace SuperChart
 typedef unsigned char 						uint8;
 typedef unsigned int						uint32;
 
+/** */
+//template <typename T>
+
 /**
  * @ClassName: 		Geometry::Global
  * @NameSpace: 		SuperChart
@@ -30,7 +33,6 @@ typedef unsigned int						uint32;
  * @Created on: 	2014/12/02
  * @Version:		V1.0.0	
  */
-
 class Global
 {
 public:
@@ -39,11 +41,10 @@ public:
 	 * @param value
 	 * @return
 	 */
-	template <class T>
-	static
-	std::string ConvertToString(T value)
+	template <typename T>
+	string ConvertToString(T value)
 	{
-		std::stringstream ss;
+		stringstream ss;
 		ss << value;
 		return ss.str();
 	}
