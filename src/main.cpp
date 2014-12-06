@@ -16,6 +16,7 @@
 #include "Attributes/Attribute.h"
 #include "Attributes/AxisAttribute.h"
 #include "Panel/ChartPanel.h"
+#include "Styles/ChartStyles.h"
 #include "Styles/ChartStyle.h"
 
 using namespace std;
@@ -123,10 +124,34 @@ void print_information(string strPrintTitle, ChartAxis* pAxis)
 
 int main(int argc, char** argv)
 {
+	ChartStyles* pChartStyles = new ChartStyles();
+	pChartStyles->LoadChartStyles(string("styles.xml"));
+
+	map<string, ChartStyle*> mpChartStyles = pChartStyles->getChartStyles();
+	for (map<string, ChartStyle*>::const_iterator ite = mpChartStyles.begin();
+			ite != mpChartStyles.end();
+			++ite)
+	{
+		string strName = ite->first;
+		ChartStyle* pChartStyle = ite->second;
+
+		cout << "*************Start**************" << endl;
+		cout << "Name = " << strName << endl;
+		cout << "Visible = " << ((pChartStyle->isVisible() == true) ? "true" : "false") << endl;
+		cout << "Color = " << hex << pChartStyle->getColor() << endl;
+		cout << "Type = " << pChartStyle->getType() << endl;
+		cout << "Size = " << pChartStyle->getSize() << endl;
+		cout << "*************End**************" << endl;
+
+		cout.unsetf(ios::hex);
+	}
+
+
+
+
+
 
 	GeoRect* pChartRect = new GeoRect(0, 0, 1200, 600);
-
-	ChartStyle* pChartStyle = new ChartStyle();
 
 	AxisAttribute* pXAxisAttrs = new AxisAttribute(Global::Axis_Bottom,
 			"Test Child",
@@ -140,7 +165,7 @@ int main(int argc, char** argv)
 			0,
 			100);
 
-	ChartPanel* pPanel = new ChartPanel(pChartRect, pXAxisAttrs, pYAxisAttrs, pChartStyle);
+	ChartPanel* pPanel = new ChartPanel(pChartRect, pXAxisAttrs, pYAxisAttrs, pChartStyles);
 
 
 	print_information("X Axis", pPanel->m_pXAxis);

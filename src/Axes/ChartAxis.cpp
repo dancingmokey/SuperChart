@@ -22,26 +22,26 @@ namespace SuperChart
  */
 ChartAxis::ChartAxis(GeoRect* pBoundRect,
 		AxisAttribute* pAttribute,
-		ChartStyle* pAxisStyle) :
-		ChartElement(pBoundRect, dynamic_cast<Attribute*>(pAttribute), pAxisStyle),
+		ChartStyles* pChartStyles) :
+		ChartElement(pBoundRect, dynamic_cast<Attribute*>(pAttribute), pChartStyles->getChartStyleByName("AxisLine")),
 		m_pAxisLine(NULL),
 		m_pAxisTitle(NULL)
 {
 	/** Initialize Private Class Members */
 	this->setBoundRect(pBoundRect);
 	this->setAttribute(dynamic_cast<Attribute*>(pAttribute));
-	this->setStyle(pAxisStyle);
+	this->setStyle(pChartStyles->getChartStyleByName("AxisLine"));
 
 	/** Create Axis Line */
-	this->ResetAxisLine(pBoundRect, pAxisStyle);
+	this->ResetAxisLine(pBoundRect, pChartStyles->getChartStyleByName("AxisLine"));
 
 	/** Update Attribute */
 
 	/** Create Axis Title */
-	this->ResetAxisTitle(pBoundRect, pAxisStyle);
+	this->ResetAxisTitle(pBoundRect, pChartStyles->getChartStyleByName("AxisTitle"));
 
 	/** Create Axis Other Elements */
-	this->ResetAxisOtherElements(pAxisStyle);
+	this->ResetAxisOtherElements(pChartStyles);
 }
 
 /**
@@ -59,7 +59,7 @@ ChartAxis::ChartAxis(void)
  * @FuncName: ~ChartAxis(void)
  * @Description: Default Destructor Function
  */
-ChartAxis::~ChartAxis()
+ChartAxis::~ChartAxis(void)
 {
 	// TODO Auto-generated destructor stub
 }
@@ -75,7 +75,7 @@ void ChartAxis::ResetChartAxis(void)
 	this->ResetAxisTitle(this->getBoundRect(), this->getStyle());
 
 	/** Create Axis Other Elements */
-	this->ResetAxisOtherElements(this->getStyle());
+	this->ResetAxisOtherElements(m_pChartStyles);
 }
 
 /**
@@ -210,9 +210,9 @@ void ChartAxis::ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle)
  * @param nMaxValue : int : Maximum value of Axis
  * @param nMinValue : int : Minimum value of Axis
  * @param nTickValue : int : Every single tick value of Axis
- * @param pAxisStyle : ChartStyle* : Chart Style instance
+ * @param pChartStyles : ChartStyles* : Chart Style instance
  */
-void ChartAxis::ResetAxisOtherElements(ChartStyle* pAxisStyle)
+void ChartAxis::ResetAxisOtherElements(ChartStyles* pChartStyles)
 {
 	/**  */
 	m_pAxisLabels.clear();
@@ -243,14 +243,14 @@ void ChartAxis::ResetAxisOtherElements(ChartStyle* pAxisStyle)
 				nStartPosX,
 				nStartPosY,
 				nOffsite,
-				pAxisStyle);
+				pChartStyles->getChartStyleByName("AxisTick"));
 
 		/** Create Single Grid */
 		ResetSingleGrid(pAttribute->getAxisPosition(),
 				nStartPosX,
 				nStartPosY,
 				nOffsite,
-				pAxisStyle);
+				pChartStyles->getChartStyleByName("AxisGrid"));
 
 		/** Create Single Label */
 		ResetSingleLabel(pAttribute->getAxisPosition(),
@@ -258,7 +258,7 @@ void ChartAxis::ResetAxisOtherElements(ChartStyle* pAxisStyle)
 				nStartPosX,
 				nStartPosY,
 				nOffsite,
-				pAxisStyle);
+				pChartStyles->getChartStyleByName("AxisLabel"));
 	}
 }
 

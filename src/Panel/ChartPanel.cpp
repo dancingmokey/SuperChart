@@ -14,38 +14,24 @@ namespace SuperChart
 /**
  *
  * @param pBoundRect
- * @param strTitle
- * @param pTitleStyle
- * @param nXAxisPosition
- * @param strXAxisTitle
- * @param nXAxisMaxVal
- * @param nXAxisMinVal
- * @param nXAxisTickVal
- * @param pXAxisStyles
- * @param nYAxisPosition
- * @param strYAxisTitle
- * @param nYAxisMaxVal
- * @param nYAxisMinVal
- * @param nYAxisTickVal
- * @param pYAxisStyles
  */
 ChartPanel::ChartPanel(GeoRect* pBoundRect,
 		AxisAttribute* pXAxisAttrs,
 		AxisAttribute* pYAxisAttrs,
-		ChartStyle* pChartStyle)
+		ChartStyles* pChartStyles)
 {
-	m_pTitle = new ChartText(pBoundRect, pChartStyle, "Super Chart");
+	m_pTitle = new ChartText(pBoundRect, pChartStyles->getChartStyleByName("PanelTitle"), "Super Chart");
 
 	m_pXAxis = new ChartAxis(pBoundRect,
 			pXAxisAttrs,
-			pChartStyle);
+			pChartStyles);
 	m_pYAxis = new ChartAxis(pBoundRect,
 			pYAxisAttrs,
-			pChartStyle);
+			pChartStyles);
 
 }
 
-ChartPanel::~ChartPanel()
+ChartPanel::~ChartPanel(void)
 {
 	// TODO Auto-generated destructor stub
 }

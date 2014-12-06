@@ -14,6 +14,7 @@
 #include "../Elements/ChartText.h"
 #include "../Elements/ChartLine.h"
 #include "../Attributes/AxisAttribute.h"
+#include "../Styles/ChartStyles.h"
 #include "../Common/Global.h"
 
 
@@ -45,11 +46,11 @@ public:
 	 * @param nAxisPosition : uint8 : Position Infomation of Axis
 	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis
 	 * @param pAttribute : AxisAttribute* : Attributes of Axis
-	 * @param pAxisStyle : ChartStyle* : Style of Axis
+	 * @param pChartStyles : ChartStyles* : Styles of Chart
 	 */
 	ChartAxis(GeoRect* pBoundRect,
 			AxisAttribute* pAttribute,
-			ChartStyle* pAxisStyle);
+			ChartStyles* pChartStyles);
 
 	/**
 	* @FuncName: ChartAxis(void)
@@ -85,9 +86,9 @@ public:
 	/**
 	 * @FuncName: ResetAxisTitle(int nMaxValue, int nMinValue, int nTickValue, ChartStyle* pAxisStyle)
 	 * @Description: Create Axis Other Element, Include Grids, Ticks, Labels
-	 * @param pAxisStyle : ChartStyle* : Chart Style instance
+	 * @param pChartStyles : ChartStyles* : Chart Style instance
 	 */
-	void ResetAxisOtherElements(ChartStyle* pAxisStyle);
+	void ResetAxisOtherElements(ChartStyles* pChartStyles);
 
 	/**
 	 *
@@ -131,6 +132,8 @@ public:
 	 * @field : m_pAxisTitle : ChartText* : Title of Axis
 	 */
 	ChartText* m_pAxisTitle;
+
+	ChartStyles* m_pChartStyles;
 
 	/**
 	 * @field : m_pAxisTicks : list<ChartTick*> :

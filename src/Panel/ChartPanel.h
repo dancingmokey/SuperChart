@@ -12,6 +12,7 @@
 
 #include "../Elements/ChartText.h"
 #include "../Axes/ChartAxis.h"
+#include "../Styles/ChartStyles.h"
 
 #include <GeoRect.h>
 
@@ -33,8 +34,8 @@ public:
 	ChartPanel(GeoRect* pBoundRect,
 			AxisAttribute* pXAxisAttrs,
 			AxisAttribute* pYAxisAttrs,
-			ChartStyle* pChartStyle);
-	virtual ~ChartPanel();
+			ChartStyles* pChartStyles);
+	virtual ~ChartPanel(void);
 
 private:
 	/**
