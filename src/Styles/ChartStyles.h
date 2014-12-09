@@ -16,6 +16,8 @@
 #include <map>
 #include <stdlib.h>
 
+#include <iostream>
+
 using namespace std;
 
 namespace SuperChart

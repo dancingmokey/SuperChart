@@ -14,7 +14,8 @@
 
 #include "Elements/ChartElement.h"
 #include "Attributes/Attribute.h"
-#include "Attributes/AxisAttribute.h"
+#include "Attributes/ScaleAttribute.h"
+#include "Attributes/SerialAttribute.h"
 #include "Panel/ChartPanel.h"
 #include "Styles/ChartStyles.h"
 #include "Styles/ChartStyle.h"
@@ -27,7 +28,7 @@ void print_information(string strPrintTitle, ChartAxis* pAxis)
 {
 	cout << "###################" << strPrintTitle << " Area#################################" << endl;
 	cout << "*************Axis Attribute Information**************" << endl;
-	AxisAttribute* pAxisAttribute = dynamic_cast<AxisAttribute*>(pAxis->getAttribute());
+	ScaleAttribute* pAxisAttribute = dynamic_cast<ScaleAttribute*>(pAxis->getAttribute());
 
 	cout << "Title = " << pAxisAttribute->getTitle() << endl;
 
@@ -37,8 +38,8 @@ void print_information(string strPrintTitle, ChartAxis* pAxis)
 	cout << "Tick Value = " << pAxisAttribute->getTickValue() << endl;
 
 	int nTempCnt = 0;
-	list<int> ltTickVals = pAxisAttribute->getTickValues();
-	for (list<int>::iterator it = ltTickVals.begin();
+	list<double> ltTickVals = pAxisAttribute->getTickValues();
+	for (list<double>::iterator it = ltTickVals.begin();
 			it != ltTickVals.end();
 			it++)
 	{
@@ -121,9 +122,19 @@ void print_information(string strPrintTitle, ChartAxis* pAxis)
 
 }
 
+void AddData(double* pDataList, int nCount)
+{
+	for (int i = 0; i < nCount; ++i)
+	{
+		cout << "Double Value [" << i << "] = " << *pDataList << endl;
+		pDataList++;
+	}
+}
+
 
 int main(int argc, char** argv)
 {
+
 	ChartStyles* pChartStyles = new ChartStyles();
 	pChartStyles->LoadChartStyles(string("styles.xml"));
 
@@ -148,18 +159,15 @@ int main(int argc, char** argv)
 
 
 
-
-
-
 	GeoRect* pChartRect = new GeoRect(0, 0, 1200, 600);
 
-	AxisAttribute* pXAxisAttrs = new AxisAttribute(Global::Axis_Bottom,
+	ScaleAttribute* pXAxisAttrs = new ScaleAttribute(Global::Axis_Bottom,
 			"Test Child",
 			1200,
 			0,
 			50);
 
-	AxisAttribute* pYAxisAttrs = new AxisAttribute(Global::Axis_Bottom,
+	ScaleAttribute* pYAxisAttrs = new ScaleAttribute(Global::Axis_Bottom,
 			"Test Child",
 			600,
 			0,
@@ -171,13 +179,13 @@ int main(int argc, char** argv)
 	print_information("X Axis", pPanel->m_pXAxis);
 	print_information("Y Axis", pPanel->m_pYAxis);
 
-	AxisAttribute* pTempX = dynamic_cast<AxisAttribute*>(pPanel->m_pXAxis->getAttribute());
+	ScaleAttribute* pTempX = dynamic_cast<ScaleAttribute*>(pPanel->m_pXAxis->getAttribute());
 	pTempX->setMaxValue(1300);
 	pTempX->setMinValue(100);
 	pPanel->m_pXAxis->ResetChartAxis();
 	print_information("X Axis After Modify", pPanel->m_pXAxis);
 
-	AxisAttribute* pTempY = dynamic_cast<AxisAttribute*>(pPanel->m_pYAxis->getAttribute());
+	ScaleAttribute* pTempY = dynamic_cast<ScaleAttribute*>(pPanel->m_pYAxis->getAttribute());
 	pTempY->setMaxValue(1240);
 	pTempY->setMinValue(740);
 	pPanel->m_pYAxis->ResetChartAxis();
@@ -185,6 +193,38 @@ int main(int argc, char** argv)
 
 
 
+	SerialAttribute* pSerialAttrs = new SerialAttribute("Serial1",
+			pXAxisAttrs, pYAxisAttrs);
+
+	double text[10240];
+	for (int i = 0; i < 10240; i++)
+	{
+		text[i] = double(i);
+	}
+
+	pSerialAttrs->AddData(text, text, 10240);
+
+	list<int> ltXPos = pSerialAttrs->GetXPosition();
+	list<int> ltYPos = pSerialAttrs->GetYPosition();
+	list<int>::iterator itX = ltXPos.begin();
+	list<int>::iterator itY = ltYPos.begin();
+	while (true)
+	{
+		int nXValue1 = *itX;
+		int nYValue1 = *itY;
+		if (((itX++) == ltXPos.end()) ||
+			((itY++) == ltYPos.end()))
+		{
+			break;
+		}
+		else
+		{
+			int nXValue2 = *itX;
+			int nYValue2 = *itY;
+
+			cout << "Line [" << "] = (" << nXValue1 << "," << nYValue1 << " , " << nXValue2 << "," << nYValue2 << ")" << endl;
+		}
+	}
 
 
 

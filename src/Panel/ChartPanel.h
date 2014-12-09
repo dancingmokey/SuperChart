@@ -32,8 +32,8 @@ class ChartPanel
 {
 public:
 	ChartPanel(GeoRect* pBoundRect,
-			AxisAttribute* pXAxisAttrs,
-			AxisAttribute* pYAxisAttrs,
+			ScaleAttribute* pXAxisAttrs,
+			ScaleAttribute* pYAxisAttrs,
 			ChartStyles* pChartStyles);
 	virtual ~ChartPanel(void);
 

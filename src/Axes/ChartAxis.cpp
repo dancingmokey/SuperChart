@@ -21,11 +21,12 @@ namespace SuperChart
  * @param pAxisStyle : ChartStyle* : Style of Axis
  */
 ChartAxis::ChartAxis(GeoRect* pBoundRect,
-		AxisAttribute* pAttribute,
+		ScaleAttribute* pAttribute,
 		ChartStyles* pChartStyles) :
 		ChartElement(pBoundRect, dynamic_cast<Attribute*>(pAttribute), pChartStyles->getChartStyleByName("AxisLine")),
 		m_pAxisLine(NULL),
-		m_pAxisTitle(NULL)
+		m_pAxisTitle(NULL),
+		m_pChartStyles(NULL)
 {
 	/** Initialize Private Class Members */
 	this->setBoundRect(pBoundRect);
@@ -53,6 +54,7 @@ ChartAxis::ChartAxis(void)
 	// TODO Auto-generated constructor stub
 	m_pAxisLine = new ChartLine();
 	m_pAxisTitle = new ChartText();
+	m_pChartStyles = new ChartStyles();
 }
 
 /**
@@ -87,7 +89,7 @@ void ChartAxis::ResetChartAxis(void)
 void ChartAxis::ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
 {
 	/** Convert Attribute to AxisAttr Type */
-	AxisAttribute* pAttribute = dynamic_cast<AxisAttribute*>(getAttribute());
+	ScaleAttribute* pAttribute = dynamic_cast<ScaleAttribute*>(getAttribute());
 
 	/** Declare Variables */
 	int nTickLength = 20;
@@ -145,7 +147,7 @@ void ChartAxis::ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
 void ChartAxis::ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle)
 {
 	/** Convert Attribute to AxisAttr Type */
-	AxisAttribute* pAttribute = dynamic_cast<AxisAttribute*>(getAttribute());
+	ScaleAttribute* pAttribute = dynamic_cast<ScaleAttribute*>(getAttribute());
 
 	/** Declare Variables */
 	GeoRect* pTitleRect = NULL;
@@ -218,24 +220,23 @@ void ChartAxis::ResetAxisOtherElements(ChartStyles* pChartStyles)
 	m_pAxisLabels.clear();
 	m_pAxisTicks.clear();
 	m_pAxisGrid.clear();
-
 	/** Convert Attribute to AxisAttr Type */
-	AxisAttribute* pAttribute = dynamic_cast<AxisAttribute*>(getAttribute());
+	ScaleAttribute* pAttribute = dynamic_cast<ScaleAttribute*>(getAttribute());
 
 	/** Declare Geometry Variables */
 	int nStartPosX = m_pAxisLine->getStartPoint()->getX();
 	int nStartPosY = m_pAxisLine->getStartPoint()->getY();
 
 	/** Declare Geometry Variables */
-	list<int> ltTickVals = pAttribute->getTickValues();
+	list<double> ltTickVals = pAttribute->getTickValues();
 
 	/**   */
-	for (list<int>::iterator it = ltTickVals.begin();
+	for (list<double>::iterator it = ltTickVals.begin();
 			it != ltTickVals.end();
 			++it)
 	{
 		/** Calculate Parameters */
-		int nValue = *it;
+		double nValue = *it;
 		int nOffsite = pAttribute->getPositionViaScale(nValue);
 
 		/** Create Single Tick */

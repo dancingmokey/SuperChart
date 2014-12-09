@@ -16,8 +16,8 @@ namespace SuperChart
  * @param pBoundRect
  */
 ChartPanel::ChartPanel(GeoRect* pBoundRect,
-		AxisAttribute* pXAxisAttrs,
-		AxisAttribute* pYAxisAttrs,
+		ScaleAttribute* pXAxisAttrs,
+		ScaleAttribute* pYAxisAttrs,
 		ChartStyles* pChartStyles)
 {
 	m_pTitle = new ChartText(pBoundRect, pChartStyles->getChartStyleByName("PanelTitle"), "Super Chart");

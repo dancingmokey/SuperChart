@@ -13,7 +13,7 @@
 #include "../Elements/ChartElement.h"
 #include "../Elements/ChartText.h"
 #include "../Elements/ChartLine.h"
-#include "../Attributes/AxisAttribute.h"
+#include "../Attributes/ScaleAttribute.h"
 #include "../Styles/ChartStyles.h"
 #include "../Common/Global.h"
 
@@ -49,7 +49,7 @@ public:
 	 * @param pChartStyles : ChartStyles* : Styles of Chart
 	 */
 	ChartAxis(GeoRect* pBoundRect,
-			AxisAttribute* pAttribute,
+			ScaleAttribute* pAttribute,
 			ChartStyles* pChartStyles);
 
 	/**

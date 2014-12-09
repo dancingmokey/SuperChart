@@ -61,9 +61,9 @@ void ChartStyles::LoadChartStyles(string strFileName)
 		TiXmlElement* pStylesNode = vXmlDoc.RootElement();
 
 		/** Parse Every Style Node */
-		for (TiXmlNode* pStyleNode = pStylesNode->FirstChild( "Style");
+		for (TiXmlNode* pStyleNode = pStylesNode->FirstChild("Style");
 				pStyleNode != NULL;
-				pStyleNode = pStylesNode->NextSibling("Style"))
+				pStyleNode = pStylesNode->IterateChildren("Style", pStyleNode))
 		{
 			/** Parse Name Attributes */
 			TiXmlNode* pNameNode = pStyleNode->FirstChild("Name");
@@ -72,7 +72,7 @@ void ChartStyles::LoadChartStyles(string strFileName)
 			/** Parse Visible Attributes */
 			TiXmlNode* pVisibleNode = pStyleNode->FirstChild("Visible");
 			string strVisible = pVisibleNode->ToElement()->GetText();
-			bool bIsVisible = (strVisible == "true") ? true : false;
+			bool bIsVisible = ((strVisible == "true") ? true : false);
 
 			/** Parse type Attributes */
 			TiXmlNode* pTypeNode = pStyleNode->FirstChild("Type");
@@ -99,6 +99,7 @@ void ChartStyles::LoadChartStyles(string strFileName)
 	else /** Load XML File Failed! So Load Default Setting!!! */
 	{
 		this->LoadDefaultChartStyles();
+		cout << "Load XML File Failed " <<  endl;
 	}
 }
 
