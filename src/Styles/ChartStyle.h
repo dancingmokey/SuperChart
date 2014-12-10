@@ -11,6 +11,7 @@
 #define STYLES_CHARTSTYLE_H_
 
 #include "../Common/Global.h"
+#include "../TinyXml/tinyxml.h"
 
 namespace SuperChart
 {
@@ -37,6 +38,14 @@ public:
 	ChartStyle(bool bIsVisible, uint32 nColor, uint32 nSize, uint8 nType);
 
 	/**
+	 * @FuncName : ChartStylestring strFileName, string strTitle)
+	 * @Description: Custom Constructor Function
+	 * @param strFileName : string : Style XML File Name
+	 * @param strTitle : string : Style XML Tag Name
+	 */
+	ChartStyle(string strFileName, string strTitle);
+
+	/**
 	 * @FuncName : ChartStyle(void)
 	 * @Description: Default Constructor Function
 	 */
@@ -47,6 +56,15 @@ public:
 	 * @Description: Default Destructor Function
 	 */
 	virtual ~ChartStyle(void);
+
+public:
+	/**
+	 * @FuncName : LoadFromFile strFileName, string strTitle)
+	 * @Description: Load Style From XML File
+	 * @param strFileName : string : Style XML File Name
+	 * @param strTitle : string : Style XML Tag Name
+	 */
+	void LoadFromFile(string strFileName, string strTitle);
 
 public:
 	/**

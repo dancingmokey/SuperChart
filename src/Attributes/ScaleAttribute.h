@@ -1,130 +1,106 @@
 /**
- * @Title: 			AxisAttribute.h
+ * @Title: 			ScaleAttribute.h
  * @Package 		SuperChart
- * @Description: 	Define Class SuperChart::AxisAttribute
+ * @Description: 	TODO 
  * @Author: 		LiuLei
- * @Created on: 	2014/12/05
+ * @Created on: 	2014/12/09
  * @Version:		V1.0.0	
  */
 
-#ifndef AXES_AXISATTRIBUTE_H_
-#define AXES_AXISATTRIBUTE_H_
+#ifndef ATTRIBUTES_SCALEATTRIBUTE_H_
+#define ATTRIBUTES_SCALEATTRIBUTE_H_
 
-#include "Attribute.h"
-#include "../Common/Global.h"
-#include <string>
-#include <list>
-
-using namespace std;
+#include "../Attributes/Attribute.h"
 
 namespace SuperChart
 {
 
 /**
- * @ClassName: 		SuperChart::AxisAttribute
+ * @ClassName: 		SuperChart::ScaleAttribute
  * @NameSpace: 		SuperChart
- * @Description: 	Class Described Methods and Attributes of AxisAttribute
+ * @Description: 	TODO 
  * @Author: 		LiuLei
- * @Created on: 	2014/12/02
+ * @Created on: 	2014/12/09
  * @Version:		V1.0.0	
  */
-class ScaleAttribute: public Attribute
+class ScaleAttribute : public Attribute
 {
 public:
 	/**
-	 * @FuncName : AxisAttribute(uint8 nAxisPosition, string strTitle, int nMaxVlue, int nMinValue, double dTickValue)
-	 * @Description: Custom Constructor Function
-	 * @param nAxisPosition : uint8 : Axis Position
-	 * @param strTitle : string : Axis Title
-	 * @param nMaxVlue : int : Maximum Value of Axis
-	 * @param nMinValue : int : Minimum Value of Axis
-	 * @param dTickValue : double : Single Tick Value of Axis
+	 * @FuncName : Instance(string strTitle, double dMaxValue, double dMinValue, double dAxisLength)
+	 * @Description: Get ScaleAttribute Instance
+	 * @param strTitle : string : Scale Title
+	 * @param dAxisValue : double : Value of Axis
+	 * @param dAxisLength : double : Length of Axis
+	 * @return
 	 */
-	ScaleAttribute(uint8 nAxisPosition,
-			string strTitle,
-			int nMaxVlue,
-			int nMinValue,
-			double dTickValue);
+	static ScaleAttribute* Instance(string strTitle,
+			double dMaxValue,
+			double dMinValue,
+			double dAxisLength);
 
 	/**
-	 * @FuncName: ~ChartAxis(void)
+	 * @FuncName : Instance(string strTitle, double dMaxValue, double dMinValue, double dAxisLength)
+	 * @Description: Get ScaleAttribute Instance
+	 */
+	static ScaleAttribute* Instance(void);
+
+	/**
+	 * @FuncName : ~ScaleAttribute(void)
 	 * @Description: Default Destructor Function
 	 */
 	virtual ~ScaleAttribute(void);
 
-public:
+
+private:
 	/**
-	 * @FuncName : ResetAttribute(void)
-	 * @Description: Reset Attribute
+	 * @FuncName : ScaleAttribute(string strTitle, double dMaxValue, double dMinValue, double dAxisLength)
+	 * @Description: Custom Constructor Function
+	 * @param strTitle : string : Scale Title
+	 * @param dAxisValue : double : Value of Axis
+	 * @param dAxisLength : double : Length of Axis
 	 */
-	void ResetAttribute(void);
+	ScaleAttribute(string strTitle,
+			double dMaxValue,
+			double dMinValue,
+			double dAxisLength);
 
 	/**
-	 * @FuncName : SetChartScale(int nMaxVlue, int nMinValue, double dAxisLength)
+	 * @FuncName : ScaleAttribute(void)
+	 * @Description: Default Constructor Function
+	 */
+	ScaleAttribute(void);
+
+	/**
+	 * @field pScaleAttrInstance : ScaleAttribute* : Maximum Value of Axis
+	 */
+	static ScaleAttribute* pScaleAttrInstance;
+
+public:
+	/**
+	 * @FuncName : UpdateAttribute(void)
+	 * @Description: Update Attributes
+	 */
+	virtual void UpdateAttribute(void);
+
+	/**
+	 * @FuncName : UpdateScale(double dMaxValue, double dMinValue, double dAxisLength)
 	 * @Description: Set Values of Chart Scale
-	 * @param nMaxValue : int : Maximum Value of Axis
-	 * @param nMinValue : int : Minimum Value of Axis
+	 * @param dMaxValue : double : Maximum Value of Axis
+	 * @param dMinValue : double : Minimum Value of Axis
 	 * @param dAxisLength : int : Length of Axis, Used to Calculate Scale Value
 	 */
-	void ResetScale(int nMaxValue, int nMinValue, double dAxisLength);
+	void UpdateScale(double dMaxValue, double dMinValue, double dAxisLength);
 
 	/**
-	 * @FuncName : ResetTickValues(int nMaxValue, int nMinValue, double dTickValue)
-	 * @Description: Set Axis Ticks Value
-	 * @param nMaxValue : int : Maximum Value of Axis
-	 * @param nMinValue : int : Minimum Value of Axis
-	 * @param dTickValue : double : Every Single Tick Value in Axis
-	 */
-	void ResetTickValues(int nMaxValue, int nMinValue, double dTickValue);
-
-	/**
-	 * @FuncName : getPixCntViaScale(double dValue)
+	 * @FuncName : GetPositionByValue(double dValue)
 	 * @Description: Input Value, Output Position on Axis
 	 * @param dValue : double : Value
-	 * @return
+	 * @return double
 	 */
-	int getPositionViaScale(double dValue);
-
-
+	double GetPositionByValue(double dValue);
 
 public:
-
-	/**
-	 * @FuncName: setAxisPosition(uint8 nAxisPosition)
-	 * @Description: Set Axis Position Information
-	 * @param nAxisPosition : uint8 : Axis Position Information
-	 */
-	void setAxisPosition(uint8 nAxisPosition);
-
-
-	/**
-	 * @FuncName : setTitle(const string& strTitle)
-	 * @Description: Set Axis Title
-	 * @param strTitle : string : Title of Axis
-	 */
-	void setTitle(const string& strTitle);
-
-	/**
-	 * @FuncName : setScaleValue(void)
-	 * @Description: Calculate Scale Value
-	 * @param dScaleValue : double : Scale Value
-	 */
-	void CalcScaleValue(void);
-
-	/**
-	 * @FuncName : setMaxValue(int nMaxValue)
-	 * @Description: Set Maximum Value to nMaxValue
-	 * @param dScaleValue : int : Scale Value
-	 */
-	void setMaxValue(int nMaxValue);
-
-	/**
-	 * @FuncName : setMinValue(int nMinValue)
-	 * @Description: Set Minimum Value to nMinValue
-	 * @param dScaleValue : int : Minimum Value
-	 */
-	void setMinValue(int nMinValue);
-
 	/**
 	 * @FuncName : setAxisLength(double dAxisLength)
 	 * @Description: Set Axis Length to nAxisLength
@@ -133,46 +109,25 @@ public:
 	void setAxisLength(double dAxisLength);
 
 	/**
-	 * @FuncName : setTickValue(double dTickValue)
-	 * @Description: Set Axis Single Tick Value
-	 * @param nTickValue : double : Single Tick Value
+	 * @FuncName : setMaxValue(double dMaxValue)
+	 * @Description: Set Axis Maximum Value
+	 * @param dMaxValue : double : Axis Maximum Value
 	 */
-	void setTickValue(double dTickValue);
+	void setMaxValue(double dMaxValue);
 
 	/**
-	 * @FuncName: getAxisPosition(void)
-	 * @Description: Get Axis Position Information
-	 * @return uint8
+	 * @FuncName : setMinValue(double dMinValue)
+	 * @Description: Set Axis Minimum Value
+	 * @param dMinValue : double : Axis Minimum Value
 	 */
-	uint8 getAxisPosition(void) const;
+	void setMinValue(double dMinValue);
 
 	/**
-	 * @FuncName : getTitle(void)
-	 * @Description: Get Axis Title
-	 * @return string
+	 * @FuncName : setScaleValue(void)
+	 * @Description: Set Scale Value
+	 * @param dScaleValue : double : Scale Value
 	 */
-	const string& getTitle(void) const;
-
-	/**
-	 * @FuncName : getScaleValue(void)
-	 * @Description: Get Scale Value
-	 * @return double
-	 */
-	double getScaleValue(void) const;
-
-	/**
-	 * @FuncName : getMaxValue(void)
-	 * @Description: Get Maximum Value
-	 * @return int
-	 */
-	int getMaxValue(void) const;
-
-	/**
-	 * @FuncName : getMinValue(void)
-	 * @Description: Get Minimum Value
-	 * @return int
-	 */
-	int getMinValue(void) const;
+	void setScaleValue(double dScaleValue);
 
 	/**
 	 * @FuncName : getAxisLength(void)
@@ -182,61 +137,48 @@ public:
 	double getAxisLength() const;
 
 	/**
-	 * @FuncName : getTickValue(void)
-	 * @Description: Get Axis Single Tick Value
+	 * @FuncName : getMaxValue(void)
+	 * @Description: Get Axis Maximum Value
 	 * @return double
 	 */
-	double getTickValue(void) const;
+	double getMaxValue(void) const;
 
 	/**
-	 * @FuncName : getTickValues(void)
-	 * @Description: Get Axis Ticks Value list
-	 * @return list<double>
+	 * @FuncName : getMinValue(void)
+	 * @Description: Get Axis Minimum Value
+	 * @return double
 	 */
-	list<double> getTickValues(void);
+	double getMinValue(void) const;
+
+	/**
+	 * @FuncName : getScaleValue(void)
+	 * @Description: Get Scale Value
+	 * @return double
+	 */
+	double getScaleValue() const;
 
 private:
 	/**
-	 * @field : m_nAxisPosition : uint8 : Axis Position Information
+	 * @field m_nMaxValue : double : Maximum Value of Axis
 	 */
-	uint8 m_nAxisPosition;
+	double m_dMaxValue;
 
 	/**
-	 * @field : m_nAxisPosition : uint8 : Axis Position Information
+	 * @field m_nMaxValue : double : Minimum Value of Axis
 	 */
-	string m_strTitle;
+	double m_dMinValue;
 
 	/**
-	 * @field m_nMaxValue : int : Maximum Value of Axis
-	 */
-	int m_nMaxValue;
-
-	/**
-	 * @field m_nMaxValue : int : Minimum Value of Axis
-	 */
-	int m_nMinValue;
-
-	/**
-	 * @field m_nAxisLength : double : Length of Axis
+	 * @Field m_dAxisLength : double : Length of Axis
 	 */
 	double m_dAxisLength;
 
 	/**
-	 * @field m_dScaleValue : double : Scale Value of Axis
+	 * @Field m_dScaleValue : double : Scale Value of Axis
 	 */
 	double m_dScaleValue;
-
-	/**
-	 * @field m_nTickValue : double : Value of Every Single Tick in Axis
-	 */
-	double m_dTickValue;
-
-	/**
-	 * @field m_ltTickValues : list<double> : Tick Value List of Axis
-	 */
-	list<double> m_ltTickValues;
 };
 
 } /* namespace SuperChart */
 
-#endif /* AXES_AXISATTRIBUTE_H_ */
+#endif /* ATTRIBUTES_SCALEATTRIBUTE_H_ */

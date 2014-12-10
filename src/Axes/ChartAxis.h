@@ -14,9 +14,8 @@
 #include "../Elements/ChartText.h"
 #include "../Elements/ChartLine.h"
 #include "../Attributes/ScaleAttribute.h"
-#include "../Styles/ChartStyles.h"
+#include "../Attributes/AxisAttribute.h"
 #include "../Common/Global.h"
-
 
 #include <GeoRect.h>
 #include <GeoPoint.h>
@@ -25,6 +24,7 @@
 #include <sstream>
 
 using namespace std;
+using namespace Geometry;
 
 namespace SuperChart
 {
@@ -41,21 +41,20 @@ class ChartAxis: public ChartElement
 {
 public:
 	/**
-	 * @FuncName: ChartAxis(GeoRect* pBoundRect, string strTitle, int nMaxValue, int nMinValue, int nTickValue)
-	 * @Description: Custom Constructor Function
-	 * @param nAxisPosition : uint8 : Position Infomation of Axis
-	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis
-	 * @param pAttribute : AxisAttribute* : Attributes of Axis
-	 * @param pChartStyles : ChartStyles* : Styles of Chart
-	 */
+	* @FuncName: ChartAxis(GeoRect* pBoundRect, AxisAttribute* pAttribute, ChartStyle* pStyle)
+	* @Description: Custom Constructor Function
+	* @param pBoundRect : GeoRect* : Bound Rectangle of Axis
+	* @param pAttribute : AxisAttribute* : Attributes of Axis
+	* @param pChartStyle : ChartStyles* : Styles of Chart
+	*/
 	ChartAxis(GeoRect* pBoundRect,
-			ScaleAttribute* pAttribute,
-			ChartStyles* pChartStyles);
+			AxisAttribute* pAttribute,
+			ChartStyle* pStyle);
 
 	/**
 	* @FuncName: ChartAxis(void)
 	* @Description: Default Constructor Function
-	 */
+	*/
 	ChartAxis(void);
 
 	/**
@@ -65,61 +64,63 @@ public:
 	virtual ~ChartAxis();
 
 public:
-	void ResetChartAxis(void);
+	/**
+	 * @FuncName: UpdateChartAxis(void)
+	 * @Description: Update Chart Axis
+	 */
+	void UpdateChartAxis(void);
 
 	/**
-	 * @FuncName: ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle)
-	 * @Description: Create Axis Line
-	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Area
-	 * @param pLineStyle : ChartStyle* : Style of Axis Line
+	 * @FuncName: UpdateAxisLine(void)
+	 * @Description: Update Axis Line
 	 */
-	void ResetAxisLine(GeoRect* pBoundRect, ChartStyle* pLineStyle);
+	void UpdateAxisLine(void);
 
 	/**
-	 * @FuncName: ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle, string strTitle)
-	 * @Description: Create Axis Title
-	 * @param pBoundRect : GeoRect* : Bound Rectangle of Axis Line
-	 * @param pTextStyle : ChartStyle* : Style of Axis Title Text
+	 * @FuncName: UpdateAxisTitle(void)
+	 * @Description: Update Axis Title
 	 */
-	void ResetAxisTitle(GeoRect* pBoundRect, ChartStyle* pTextStyle);
+	void UpdateAxisTitle(void);
 
 	/**
-	 * @FuncName: ResetAxisTitle(int nMaxValue, int nMinValue, int nTickValue, ChartStyle* pAxisStyle)
-	 * @Description: Create Axis Other Element, Include Grids, Ticks, Labels
-	 * @param pChartStyles : ChartStyles* : Chart Style instance
+	 * @FuncName: UpdateAxisOtherElements(void)
+	 * @Description: Update Axis Other Element, Include Grids, Ticks, Labels
 	 */
-	void ResetAxisOtherElements(ChartStyles* pChartStyles);
+	void UpdateAxisOtherElements(void);
 
 	/**
-	 *
-	 * @param nAxisPos
-	 * @param nStartPosX
-	 * @param nStartPosY
-	 * @param nOffset
-	 * @param pTickStyle
+	 * @FuncName: UpdateSingleTick(uint8 nAxisPos, int nStartPosX, int nStartPosY, double dOffset, ChartStyle* pTickStyle)
+	 * @Description: Update Single Tick in Axis
+	 * @param nAxisPos : uint8 : Axis Position
+	 * @param nStartPosX : int : X Coordinate of Axis Start Position
+	 * @param nStartPosY : int : Y Coordinate of Axis Start Position
+	 * @param dOffset : double : Offset of Y Axis from Axis Start Position
+	 * @param pTickStyle : ChartStyle* : Tick Style
 	 */
-	void ResetSingleTick(uint8 nAxisPos, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pTickStyle);
+	void UpdateSingleTick(uint8 nAxisPos, int nStartPosX, int nStartPosY, double dOffset, ChartStyle* pTickStyle);
 
 	/**
-	 *
-	 * @param nAxisPos
-	 * @param nStartPosX
-	 * @param nStartPosY
-	 * @param nOffset
-	 * @param pGridStyle
+	 * @FuncName: UpdateSingleGrid(uint8 nAxisPos, int nStartPosX, int nStartPosY, double dOffset, ChartStyle* pTickStyle)
+	 * @Description: Update Single Grid in Axis
+	 * @param nAxisPos : uint8 : Axis Position
+	 * @param nStartPosX : int : X Coordinate of Axis Start Position
+	 * @param nStartPosY : int : Y Coordinate of Axis Start Position
+	 * @param dOffset : int : Offset of Y Axis from Axis Start Position
+	 * @param pGridStyle : ChartStyle* : Grid Style
 	 */
-	void ResetSingleGrid(uint8 nAxisPos, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pGridStyle);
+	void UpdateSingleGrid(uint8 nAxisPos, int nStartPosX, int nStartPosY, double dOffset, ChartStyle* pGridStyle);
 
 	/**
-	 *
-	 * @param nAxisPos
-	 * @param nCurrValue
-	 * @param nStartPosX
-	 * @param nStartPosY
-	 * @param nOffset
-	 * @param pLabelStyle
+	 * @FuncName: UpdateSingleLabel(uint8 nAxisPos, int nCurrValue, int nStartPosX, int nStartPosY, double dOffset, ChartStyle* pTickStyle)
+	 * @Description: Update Single Label in Axis
+	 * @param nAxisPos : uint8 : Axis Position
+	 * @param nCurrValue : int : Current Value of Label on Axis
+	 * @param nStartPosX : int : X Coordinate of Axis Start Position
+	 * @param nStartPosY : int : Y Coordinate of Axis Start Position
+	 * @param dOffset : int : Offset of Y Axis from Axis Start Position
+	 * @param pLabelStyle : ChartStyle* : Label Style
 	 */
-	void ResetSingleLabel(uint8 nAxisPos, int nCurrValue, int nStartPosX, int nStartPosY, int nOffset, ChartStyle* pLabelStyle);
+	void UpdateSingleLabel(uint8 nAxisPos, int nCurrValue, int nStartPosX, int nStartPosY, double dOffset, ChartStyle* pLabelStyle);
 
 
 public:
@@ -132,8 +133,6 @@ public:
 	 * @field : m_pAxisTitle : ChartText* : Title of Axis
 	 */
 	ChartText* m_pAxisTitle;
-
-	ChartStyles* m_pChartStyles;
 
 	/**
 	 * @field : m_pAxisTicks : list<ChartTick*> :
@@ -149,8 +148,6 @@ public:
 	 * @field : m_pAxisLabels : list<ChartText*> :
 	 */
 	list<ChartText*> m_pAxisLabels;
-
-
 };
 
 } /* namespace SuperChart */

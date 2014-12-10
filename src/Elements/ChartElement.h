@@ -98,17 +98,19 @@ public:
 
 private:
 	/**
-	 * @Field : m_pBoundRect : Bound Rectangle
+	 * @Field : m_pBoundRect : Bound Rectangle of Element
 	 */
 	GeoRect* m_pBoundRect;
 
 	/**
-	 * @Field : m_bIsVisible : Is Element Visible
+	 * @Field : m_bIsVisible : Is Element Visible or Not
 	 */
 	ChartStyle* m_pStyle;
 
+	/**
+	 * @Field : m_pAttribute : Attribute of Element
+	 */
 	Attribute* m_pAttribute;
-
 };
 
 } /* namespace Geometry */

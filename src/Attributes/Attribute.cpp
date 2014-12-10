@@ -23,4 +23,24 @@ Attribute::~Attribute()
 	// TODO Auto-generated destructor stub
 }
 
+/**
+ * @FuncName : setTitle(const string& strTitle)
+ * @Description: Set Axis Title
+ * @param strTitle : string : Title of Axis
+ */
+void Attribute::setTitle(const string& strTitle)
+{
+	m_strTitle = strTitle;
+}
+
+/**
+ * @FuncName : getTitle(void)
+ * @Description: Get Axis Title
+ * @return string
+ */
+const string& Attribute::getTitle(void) const
+{
+	return m_strTitle;
+}
+
 } /* namespace SuperChart */

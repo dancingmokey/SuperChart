@@ -30,6 +30,24 @@ ChartStyle::ChartStyle(bool bIsVisible, uint32 nColor, uint32 nSize, uint8 nType
 }
 
 /**
+ * @FuncName : ChartStylestring strFileName, string strTitle)
+ * @Description: Custom Constructor Function
+ * @param strFileName : string : Style XML File Name
+ * @param strTitle : string : Style XML Tag Name
+ */
+ChartStyle::ChartStyle(string strFileName, string strTitle)
+{
+	/** Initialize Members */
+	m_bIsVisible = false;
+	m_nColor = Global::Color_Black;
+	m_nSize = 0x00;
+	m_nType = 0x00;
+
+	/** Load From XML File */
+	this->LoadFromFile(strFileName, strTitle);
+}
+
+/**
  * @FuncName : ChartStyle(void)
  * @Description: Default Constructor Function
  */
@@ -49,6 +67,59 @@ ChartStyle::ChartStyle(void)
 ChartStyle::~ChartStyle(void)
 {
 	// TODO Auto-generated destructor stub
+}
+
+/**
+ * @FuncName : LoadFromFile strFileName, string strTitle)
+ * @Description: Load Style From XML File
+ * @param strFileName : string : Style XML File Name
+ * @param strTitle : string : Style XML Tag Name
+ */
+void ChartStyle::LoadFromFile(string strFileName, string strTitle)
+{
+	/** Load From XML File */
+	TiXmlDocument vXmlDoc(strFileName.c_str());
+	if (vXmlDoc.LoadFile() == true)
+	{
+		/** parse Styles Node */
+		TiXmlElement* pStylesNode = vXmlDoc.RootElement();
+
+		/** Parse Every Style Node */
+		for (TiXmlNode* pStyleNode = pStylesNode->FirstChild("Style");
+				pStyleNode != NULL;
+				pStyleNode = pStylesNode->IterateChildren("Style", pStyleNode))
+		{
+			/** Parse Name Attributes */
+			TiXmlNode* pNameNode = pStyleNode->FirstChild("Name");
+			string strName = pNameNode->ToElement()->GetText();
+
+			if (strName == strTitle)
+			{
+				/** Parse Visible Attributes */
+				TiXmlNode* pVisibleNode = pStyleNode->FirstChild("Visible");
+				string strVisible = pVisibleNode->ToElement()->GetText();
+				m_bIsVisible = ((strVisible == "true") ? true : false);
+
+				/** Parse type Attributes */
+				TiXmlNode* pTypeNode = pStyleNode->FirstChild("Type");
+				string strType = pTypeNode->ToElement()->GetText();
+				m_nType = Global::GetLineTypeByName(strType);
+
+				/** Parse size Attributes */
+				TiXmlNode* pSizeNode = pStyleNode->FirstChild("Size");
+				string strSize = pSizeNode->ToElement()->GetText();
+				m_nSize = atoi(strSize.c_str());
+
+				/** Parse color Attributes */
+				TiXmlNode* pColorNode = pStyleNode->FirstChild("Color");
+				string strColor = pColorNode->ToElement()->GetText();
+				m_nColor = Global::GetColorByName(strColor);
+
+				/** */
+				break;
+			}
+		}
+	}
 }
 
 /**

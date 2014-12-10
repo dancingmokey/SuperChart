@@ -34,7 +34,6 @@ ChartElement::ChartElement()
 {
 	// TODO Auto-generated constructor stub
 	m_pBoundRect = new GeoRect();
-	m_pAttribute = new Attribute();
 	m_pStyle = new ChartStyle();
 }
 

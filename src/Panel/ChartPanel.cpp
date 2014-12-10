@@ -11,68 +11,85 @@
 
 namespace SuperChart
 {
+
 /**
- *
- * @param pBoundRect
+ * @FuncName: ChartPanel(GeoRect* pBoundRect, AxisAttribute* pAttribute, ChartStyle* pStyle)
+ * @Description: Custom Constructor Function
+ * @param pBoundRect : GeoRect* : Bound Rectangle of Panel
+ * @param pAttribute : AxisAttribute* : Attributes of Panel
+ * @param pStyle : ChartStyle* : Styles of Panel
  */
 ChartPanel::ChartPanel(GeoRect* pBoundRect,
-		ScaleAttribute* pXAxisAttrs,
-		ScaleAttribute* pYAxisAttrs,
-		ChartStyles* pChartStyles)
+		Attribute* pAttribute,
+		ChartStyle* pStyle) :
+		ChartElement(pBoundRect, dynamic_cast<Attribute*>(pAttribute), pStyle),
+		m_pPanelTitle(new ChartText())
 {
-	m_pTitle = new ChartText(pBoundRect, pChartStyles->getChartStyleByName("PanelTitle"), "Super Chart");
+	/** Initialize Private Class Members */
+	this->setBoundRect(pBoundRect);
+	this->setAttribute(dynamic_cast<Attribute*>(pAttribute));
+	this->setStyle(pStyle);
 
-	m_pXAxis = new ChartAxis(pBoundRect,
-			pXAxisAttrs,
-			pChartStyles);
-	m_pYAxis = new ChartAxis(pBoundRect,
-			pYAxisAttrs,
-			pChartStyles);
-
+	/** Update Panel Title */
+	this->UpdatePanelTitle();
 }
 
-ChartPanel::~ChartPanel(void)
+/**
+ * @FuncName: ChartPanel(void)
+ * @Description: Default Constructor Function
+ */
+ChartPanel::ChartPanel(void) :
+		m_pPanelTitle(new ChartText())
 {
 	// TODO Auto-generated destructor stub
 }
 
 /**
- *
- * @param pBoundRect
- * @param nAxisPosition
- * @param strAxisTitle
- * @param nMaxValue
- * @param nMinValue
- * @param nTickValue
- * @param pAxisStyle
- * @return
+ * @FuncName: ~ChartPanel(void)
+ * @Description: Default Destructor Function
  */
-ChartAxis*  CreateAxis(GeoRect* pBoundRect,
-		uint8 nAxisPosition,
-		string strAxisTitle,
-		int nMaxValue,
-		int nMinValue,
-		int nTickValue,
-		ChartStyle* pAxisStyle)
+ChartPanel::~ChartPanel(void)
 {
-
-
-//	return new ChartAxis(nAxisPosition,
-//			pBoundRect,
-//			strAxisTitle,
-//			pAxisStyle,
-//			nMaxValue,
-//			nMinValue,
-//			nTickValue);
-	return NULL;
+	/** Release Old Title if Necessary */
+	Global::Safe_Delete(m_pPanelTitle);
 }
 
+/**
+ * @FuncName: UpdateAxisTitle(void)
+ * @Description: Update Panel Title
+ */
+void ChartPanel::UpdatePanelTitle(void)
+{
+	/** Convert Attribute to AxisAttr Type */
+	PanelAttribute* pAttribute = dynamic_cast<PanelAttribute*>(getAttribute());
+	GeoRect* pBoundRect = this->getBoundRect();
 
+	/** Create PanelTitle */
+	m_pPanelTitle->setText(pAttribute->getTitle());
+}
 
+/**
+ * @FuncName: setPanelTitle(ChartText* pPanelTitle)
+ * @Description: Set Panel Title
+ * @param pPanelTitle : ChartText* : Panel Title
+ */
+void ChartPanel::setPanelTitle(ChartText* pPanelTitle)
+{
+	m_pPanelTitle = pPanelTitle;
+}
 
-
-
-
-
+/**
+ * @FuncName: getPanelTitle(void)
+ * @Description: Get Panel Title
+ * @return ChartText*
+ */
+ChartText* ChartPanel::getPanelTitle(void)
+{
+	return m_pPanelTitle;
+}
 
 } /* namespace SuperChart */
+
+
+
+
